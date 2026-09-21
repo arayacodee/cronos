@@ -1,0 +1,100 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  CLIENT
+  PROFESSIONAL
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+model User {
+  id           String        @id @default(uuid())
+  email        String        @unique
+  name         String?
+  role         UserRole
+  googleId     String?       @unique
+
+  businesses   Business[]
+  reservations Reservation[]
+
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Business {
+  id             String         @id @default(uuid())
+  name           String
+  description    String?
+  timezone       String @default("America/Santiago")
+  ownerId        String
+
+  owner          User           @relation(fields: [ownerId], references: [id])
+  services       Service[]
+  availabilities Availability[]
+  reservations   Reservation[]
+
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+}
+
+model Service {
+  id           String        @id @default(uuid())
+  businessId   String
+  name         String
+  description  String?
+  durationMin  Int
+  price        Decimal       @db.Decimal(10, 2)
+  isActive     Boolean       @default(true)
+
+  business     Business      @relation(fields: [businessId], references: [id])
+  reservations Reservation[]
+
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Availability {
+  id          String   @id @default(uuid())
+  businessId  String
+  dayOfWeek   Int
+  startTime   String
+  endTime     String
+  isActive    Boolean  @default(true)
+
+  business    Business @relation(fields: [businessId], references: [id])
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Reservation {
+  id          String            @id @default(uuid())
+  businessId  String
+  serviceId   String
+  clientId    String
+
+  startsAt    DateTime
+  endsAt      DateTime
+  status      ReservationStatus @default(CONFIRMED)
+
+  business    Business          @relation(fields: [businessId], references: [id])
+  service     Service           @relation(fields: [serviceId], references: [id])
+  client      User              @relation(fields: [clientId], references: [id])
+
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@index([businessId, startsAt])
+  @@index([clientId])
+}
