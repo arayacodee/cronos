@@ -1,0 +1,170 @@
+<main class="profile-page">
+
+  @if (loading()) {
+    <div class="status">
+      Cargando perfil...
+    </div>
+  }
+
+  @if (errorMessage()) {
+    <div class="status error">
+      {{ errorMessage() }}
+    </div>
+  }
+
+  @if (business(); as currentBusiness) {
+
+    <section class="profile-hero">
+
+      @if (currentBusiness.coverUrl) {
+        <img
+          class="profile-cover"
+          [src]="currentBusiness.coverUrl"
+          [alt]="'Portada de ' + currentBusiness.name"
+        />
+      }
+
+      <div
+        class="profile-cover-overlay"
+        [class.no-cover]="!currentBusiness.coverUrl"
+      ></div>
+
+      <div
+        class="profile-hero-content"
+        [class.has-cover]="currentBusiness.coverUrl"
+      >
+
+        <div class="profile-avatar">
+
+          @if (currentBusiness.avatarUrl) {
+            <img
+              [src]="currentBusiness.avatarUrl"
+              [alt]="'Foto de ' + currentBusiness.name"
+            />
+          } @else {
+            <span>
+              {{ currentBusiness.name.charAt(0) }}
+            </span>
+          }
+
+        </div>
+
+        <div class="profile-heading">
+
+          <p class="eyebrow">
+            PROFESIONAL EN CRONOS
+          </p>
+
+          <h1>
+            {{ currentBusiness.name }}
+          </h1>
+
+          @if (currentBusiness.description) {
+            <p>
+              {{ currentBusiness.description }}
+            </p>
+          }
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="content-section">
+
+      <div class="section-title">
+        <div>
+          <p class="eyebrow">
+            SERVICIOS
+          </p>
+
+          <h2>
+            Reserva lo que necesitas.
+          </h2>
+        </div>
+      </div>
+
+      @if (services().length === 0) {
+        <div class="empty-state">
+          Actualmente no hay servicios disponibles.
+        </div>
+      }
+
+      <div class="services-list">
+
+        @for (
+          service of services();
+          track service.id
+        ) {
+          <article class="service">
+
+            <div class="service-info">
+              <h3>
+                {{ service.name }}
+              </h3>
+
+              @if (service.description) {
+                <p>
+                  {{ service.description }}
+                </p>
+              }
+
+              <span>
+                {{ service.durationMin }} min
+              </span>
+            </div>
+
+            <div class="service-action">
+
+              <strong>
+                ${{ service.price }}
+              </strong>
+
+              <a
+                [routerLink]="[
+                  '/booking',
+                  service.id
+                ]"
+              >
+                Reservar
+              </a>
+
+            </div>
+
+          </article>
+        }
+
+      </div>
+
+    </section>
+
+    <section class="portfolio-section">
+
+      <div class="section-title">
+        <div>
+          <p class="eyebrow">
+            TRABAJOS
+          </p>
+
+          <h2>
+            Conoce su trabajo.
+          </h2>
+        </div>
+      </div>
+
+      <div class="portfolio-grid">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+
+      <p class="portfolio-note">
+        El portafolio estará disponible próximamente.
+      </p>
+
+    </section>
+
+  }
+
+</main>

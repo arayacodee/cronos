@@ -2,13 +2,17 @@ import type { Request, Response } from "express";
 import { z } from "zod";
 import { prisma } from "../lib/prisma.js";
 
-const createReservationSchema = z.object({
-  serviceId: z.string().uuid(),
-  clientId: z.string().uuid(),
-  startsAt: z.string().refine(
-    (value) => !Number.isNaN(Date.parse(value)),
-    "Invalid date"
-  ),
+const createReservationSchema =
+  z.object({
+    serviceId: z.string().uuid(),
+
+    startsAt: z.string().refine(
+      (value) =>
+        !Number.isNaN(
+          Date.parse(value)
+        ),
+      "Fecha Incorrecta"
+    )
 });
 
 const weekdayMap: Record<string, number> = {
@@ -70,7 +74,13 @@ export const createReservation = async (
     });
   }
 
-  const { serviceId, clientId, startsAt } = result.data;
+  const {
+    serviceId,
+    startsAt
+  } = result.data;
+
+  const clientId =
+    req.authUser!.id;
 
   const reservationStart = new Date(startsAt);
 
@@ -263,56 +273,78 @@ export const getReservations = async (
   res: Response
 ) => {
   try {
-    const businessId =
+    const user = req.authUser!;
+
+    const requestedBusinessId =
       typeof req.query.businessId === "string"
         ? req.query.businessId
         : undefined;
 
-    const clientId =
-      typeof req.query.clientId === "string"
-        ? req.query.clientId
-        : undefined;
+    if (user.role === "CLIENT") {
+      const reservations =
+        await prisma.reservation.findMany({
+          where: {
+            clientId: user.id
+          },
 
-    const reservations = await prisma.reservation.findMany({
-      where: {
-        ...(businessId ? { businessId } : {}),
-        ...(clientId ? { clientId } : {}),
-      },
-      include: {
-        business: {
-          select: {
-            id: true,
-            name: true,
-            timezone: true,
+          include: {
+            business: true,
+            service: true
           },
-        },
-        service: {
-          select: {
-            id: true,
-            name: true,
-            durationMin: true,
-            price: true,
-          },
-        },
-        client: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-          },
-        },
-      },
-      orderBy: {
-        startsAt: "asc",
-      },
-    });
 
-    return res.status(200).json(reservations);
+          orderBy: {
+            startsAt: "asc"
+          }
+        });
+
+      return res.status(200).json(
+        reservations
+      );
+    }
+
+    const reservations =
+      await prisma.reservation.findMany({
+        where: {
+          business: {
+            ownerId: user.id
+          },
+
+          ...(requestedBusinessId
+            ? {
+                businessId:
+                  requestedBusinessId
+              }
+            : {})
+        },
+
+        include: {
+          business: true,
+          service: true,
+
+          client: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              role: true
+            }
+          }
+        },
+
+        orderBy: {
+          startsAt: "asc"
+        }
+      });
+
+    return res.status(200).json(
+      reservations
+    );
   } catch (error) {
-    console.error("Get reservations error:", error);
+    console.error(error);
 
     return res.status(500).json({
-      error: "Internal server error",
+      error:
+        "Unable to load reservations"
     });
   }
 };
@@ -322,24 +354,26 @@ export const getReservationById = async (
   res: Response
 ) => {
   try {
-    const { id } = req.params;
+    const reservation =
+      await prisma.reservation.findUnique({
+        where: {
+          id: req.params.id,
+        },
 
-    const reservation = await prisma.reservation.findUnique({
-      where: {
-        id,
-      },
-      include: {
-        business: true,
-        service: true,
-        client: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
+        include: {
+          business: true,
+          service: true,
+
+          client: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              role: true,
+            },
           },
         },
-      },
-    });
+      });
 
     if (!reservation) {
       return res.status(404).json({
@@ -347,15 +381,37 @@ export const getReservationById = async (
       });
     }
 
+    const user = req.authUser!;
+
+    if (
+      user.role === "CLIENT" &&
+      reservation.clientId !== user.id
+    ) {
+      return res.status(403).json({
+        error: "Forbidden",
+      });
+    }
+
+    if (
+      user.role === "PROFESSIONAL" &&
+      reservation.business.ownerId !== user.id
+    ) {
+      return res.status(403).json({
+        error: "Forbidden",
+      });
+    }
+
     return res.status(200).json(reservation);
   } catch (error) {
-    console.error("Get reservation error:", error);
+    console.error(
+      "Get reservation error:",
+      error
+    );
 
     return res.status(500).json({
       error: "Internal server error",
     });
   }
-  
 };
 
 export const cancelReservation = async (
@@ -363,11 +419,16 @@ export const cancelReservation = async (
   res: Response
 ) => {
   try {
-    const { id } = req.params;
+    const reservation =
+      await prisma.reservation.findUnique({
+        where: {
+          id: req.params.id,
+        },
 
-    const reservation = await prisma.reservation.findUnique({
-      where: { id },
-    });
+        include: {
+          business: true,
+        },
+      });
 
     if (!reservation) {
       return res.status(404).json({
@@ -375,20 +436,42 @@ export const cancelReservation = async (
       });
     }
 
+    const user = req.authUser!;
+
+    const allowed =
+      user.role === "CLIENT"
+        ? reservation.clientId === user.id
+        : reservation.business.ownerId === user.id;
+
+    if (!allowed) {
+      return res.status(403).json({
+        error: "Forbidden",
+      });
+    }
+
     if (reservation.status === "CANCELLED") {
       return res.status(200).json(reservation);
     }
 
-    const cancelledReservation = await prisma.reservation.update({
-      where: { id },
-      data: {
-        status: "CANCELLED",
-      },
-    });
+    const cancelledReservation =
+      await prisma.reservation.update({
+        where: {
+          id: reservation.id,
+        },
 
-    return res.status(200).json(cancelledReservation);
+        data: {
+          status: "CANCELLED",
+        },
+      });
+
+    return res
+      .status(200)
+      .json(cancelledReservation);
   } catch (error) {
-    console.error("Cancel reservation error:", error);
+    console.error(
+      "Cancel reservation error:",
+      error
+    );
 
     return res.status(500).json({
       error: "Internal server error",

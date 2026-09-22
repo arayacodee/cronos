@@ -1,0 +1,115 @@
+<main class="reservations-page">
+  <a routerLink="/" class="back-link">
+    ← Volver
+  </a>
+
+  <header>
+    <p class="eyebrow">CRONOS</p>
+    <h1>Mis reservas</h1>
+
+    @if (client(); as currentClient) {
+      <p>
+        Reservas de
+        {{ currentClient.name || currentClient.email }}
+      </p>
+    }
+  </header>
+
+  @if (loading()) {
+    <p>Cargando reservas...</p>
+  }
+
+  @if (errorMessage()) {
+    <p class="message error">
+      {{ errorMessage() }}
+    </p>
+  }
+
+  @if (!loading() && reservations().length === 0) {
+    <section class="empty-state">
+      <h2>Aún no tienes reservas</h2>
+      <p>Explora los servicios disponibles en Cronos.</p>
+
+      <a routerLink="/">
+        Buscar servicios
+      </a>
+    </section>
+  }
+
+  <section class="reservation-list">
+    @for (
+      reservation of reservations();
+      track reservation.id
+    ) {
+      <article
+        class="reservation-card"
+        [class.cancelled]="
+          reservation.status === 'CANCELLED'
+        "
+      >
+        <div class="reservation-info">
+          <div class="reservation-heading">
+            <h2>
+              {{ reservation.service?.name || 'Servicio' }}
+            </h2>
+
+            <span
+              class="status"
+              [class.status-cancelled]="
+                reservation.status === 'CANCELLED'
+              "
+            >
+              {{ statusLabel(reservation.status) }}
+            </span>
+          </div>
+
+          <p class="business">
+            {{ reservation.business?.name || 'Negocio' }}
+          </p>
+
+          <div class="reservation-details">
+            <p>
+              <strong>Fecha:</strong>
+              {{ formatDate(reservation.startsAt) }}
+            </p>
+
+            <p>
+              <strong>Hora:</strong>
+              {{ formatTime(reservation.startsAt) }}
+            </p>
+
+            @if (reservation.service) {
+              <p>
+                <strong>Duración:</strong>
+                {{ reservation.service.durationMin }}
+                minutos
+              </p>
+
+              <p>
+                <strong>Precio:</strong>
+                {{ formatPrice(reservation.service.price) }}
+              </p>
+            }
+          </div>
+        </div>
+
+        @if (reservation.status !== 'CANCELLED') {
+          <button
+            type="button"
+            class="cancel-button"
+            [disabled]="
+              cancellingId() === reservation.id
+            "
+            (click)="cancelReservation(reservation)"
+          >
+            @if (cancellingId() === reservation.id) {
+              Cancelando...
+            } @else {
+              Cancelar reserva
+            }
+          </button>
+        }
+      </article>
+    }
+  </section>
+</main>

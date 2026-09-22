@@ -1,0 +1,219 @@
+<main class="dashboard">
+
+
+
+  @if (loading()) {
+    <p>Cargando dashboard...</p>
+  }
+
+  @if (errorMessage()) {
+    <p class="message error">
+      {{ errorMessage() }}
+    </p>
+  }
+
+  @if (!loading() && business(); as currentBusiness) {
+
+    <section class="dashboard-header">
+
+      <div class="dashboard-business">
+
+        <div class="dashboard-avatar">
+
+          @if (currentBusiness.avatarUrl) {
+            <img
+              [src]="currentBusiness.avatarUrl"
+              [alt]="'Foto de ' + currentBusiness.name"
+            />
+          } @else {
+            <span>
+              {{ currentBusiness.name.charAt(0) }}
+            </span>
+          }
+
+        </div>
+
+        <div class="dashboard-identity">
+          <p class="eyebrow">
+            PANEL PROFESIONAL
+          </p>
+
+          <h1>
+            {{ currentBusiness.name }}
+          </h1>
+
+          @if (currentBusiness.description) {
+            <p class="business-description">
+              {{ currentBusiness.description }}
+            </p>
+          }
+        </div>
+
+      </div>
+
+      <div class="profile-actions">
+
+        <a
+          class="profile-link"
+          routerLink="/dashboard/profile"
+        >
+          Editar perfil
+        </a>
+
+        <a
+          class="profile-link"
+          [routerLink]="[
+            '/business',
+            currentBusiness.id
+          ]"
+        >
+          Ver perfil público
+        </a>
+
+      </div>
+
+    </section>
+
+    <section class="stats">
+
+      <article>
+        <span>Servicios activos</span>
+        <strong>{{ activeServicesCount() }}</strong>
+      </article>
+
+      <article>
+        <span>Reservas confirmadas</span>
+        <strong>{{ confirmedReservationsCount() }}</strong>
+      </article>
+
+      <article>
+        <span>Próximas reservas</span>
+        <strong>{{ upcomingReservations().length }}</strong>
+      </article>
+    </section>
+
+    <section class="dashboard-section">
+      <div class="section-heading">
+        <div>
+          <h2>Próximas reservas</h2>
+          <p>
+            Reservas pendientes de atender.
+          </p>
+        </div>
+      </div>
+
+      @if (upcomingReservations().length === 0) {
+        <div class="empty-state">
+          No hay próximas reservas.
+        </div>
+      }
+
+      <div class="reservation-list">
+        @for (
+          reservation of upcomingReservations();
+          track reservation.id
+        ) {
+          <article class="reservation-card">
+            <div>
+              <strong>
+                {{ reservation.service?.name || 'Servicio' }}
+              </strong>
+
+              <p>
+                {{ reservation.client?.name ||
+                   reservation.client?.email ||
+                   'Cliente' }}
+              </p>
+            </div>
+
+            <div class="reservation-date">
+              <strong>
+                {{ formatDate(reservation.startsAt) }}
+              </strong>
+
+              <span>
+                {{ formatTime(reservation.startsAt) }}
+              </span>
+            </div>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section class="dashboard-section">
+      <div class="section-heading">
+        <div>
+          <h2>Servicios</h2>
+          <p>
+            Servicios ofrecidos por el negocio.
+          </p>
+        </div>
+
+        <a routerLink="/dashboard/services">
+          Gestionar servicios
+        </a>
+      </div>
+
+      <div class="service-list">
+        @for (service of services(); track service.id) {
+          <article class="service-card">
+            <div>
+              <div class="service-title">
+                <h3>{{ service.name }}</h3>
+
+                <span
+                  class="badge"
+                  [class.inactive]="!service.isActive"
+                >
+                  {{ service.isActive ? 'Activo' : 'Inactivo' }}
+                </span>
+              </div>
+
+              <p>
+                {{ service.durationMin }} minutos
+              </p>
+            </div>
+
+            <strong>
+              {{ formatPrice(service.price) }}
+            </strong>
+          </article>
+        }
+      </div>
+    </section>
+
+    <section class="dashboard-section">
+      <div class="section-heading">
+        <div>
+          <h2>Disponibilidad</h2>
+          <p>
+            Horarios configurados para recibir reservas.
+          </p>
+        </div>
+
+        <a routerLink="/dashboard/availability">
+          Gestionar disponibilidad
+        </a>
+      </div>
+
+      <div class="availability-list">
+        @for (
+          availability of availabilities();
+          track availability.id
+        ) {
+          <article class="availability-card">
+            <strong>
+              {{ dayName(availability.dayOfWeek) }}
+            </strong>
+
+            <span>
+              {{ availability.startTime }}
+              —
+              {{ availability.endTime }}
+            </span>
+          </article>
+        }
+      </div>
+    </section>
+  }
+</main>

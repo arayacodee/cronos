@@ -1,0 +1,248 @@
+<main class="profile-page">
+
+  <a
+    routerLink="/dashboard"
+    class="back-link"
+  >
+    ← Volver al dashboard
+  </a>
+
+  <header>
+    <p class="eyebrow">
+      PANEL PROFESIONAL
+    </p>
+
+    <h1>Editar perfil</h1>
+
+    <p>
+      Esta información aparecerá en tu perfil
+      público de Cronos.
+    </p>
+  </header>
+
+  @if (loading()) {
+    <p>Cargando perfil...</p>
+  }
+
+  @if (errorMessage()) {
+    <p class="message error">
+      {{ errorMessage() }}
+    </p>
+  }
+
+  @if (successMessage()) {
+    <p class="message success">
+      {{ successMessage() }}
+    </p>
+  }
+
+  @if (!loading() && business()) {
+
+        <section class="cover-section">
+
+      <div class="cover-preview">
+
+        @if (coverPreview()) {
+          <img
+            [src]="coverPreview()"
+            alt="Vista previa de la portada"
+          />
+        } @else if (business()?.coverUrl) {
+          <img
+            [src]="business()!.coverUrl!"
+            alt="Portada del negocio"
+          />
+        } @else {
+          <div class="cover-placeholder">
+            <span>Portada del negocio</span>
+          </div>
+        }
+
+      </div>
+
+      <div class="cover-content">
+
+        <div>
+          <h2>Portada</h2>
+
+          <p>
+            Esta imagen será el elemento visual principal
+            de tu perfil público.
+          </p>
+        </div>
+
+        <div class="cover-actions">
+
+          <label class="file-button">
+            Seleccionar portada
+
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              (change)="onCoverSelected($event)"
+            />
+          </label>
+
+          @if (selectedCover()) {
+            <button
+              type="button"
+              class="secondary-button"
+              [disabled]="uploadingCover()"
+              (click)="uploadCover()"
+            >
+              @if (uploadingCover()) {
+                Subiendo...
+              } @else {
+                Guardar portada
+              }
+            </button>
+          }
+
+        </div>
+
+        <small>
+          JPEG, PNG o WebP. Máximo 5 MB.
+          Recomendado: imagen horizontal.
+        </small>
+
+      </div>
+
+    </section>
+
+    <section class="avatar-section">
+
+      <div class="avatar-preview">
+
+        @if (avatarPreview()) {
+          <img
+            [src]="avatarPreview()"
+            alt="Vista previa de la foto de perfil"
+          />
+        } @else if (business()?.avatarUrl) {
+          <img
+            [src]="business()!.avatarUrl!"
+            alt="Foto del perfil profesional"
+          />
+        } @else {
+          <span>
+            {{ business()?.name?.charAt(0) }}
+          </span>
+        }
+
+      </div>
+
+      <div class="avatar-content">
+
+        <div>
+          <h2>Foto de perfil</h2>
+
+          <p>
+            Esta imagen aparecerá en tu perfil público
+            y posteriormente en la vitrina de Cronos.
+          </p>
+        </div>
+
+        <label class="file-button">
+          Seleccionar imagen
+
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            (change)="onAvatarSelected($event)"
+          />
+        </label>
+
+        @if (selectedAvatar()) {
+          <button
+            type="button"
+            class="secondary-button"
+            [disabled]="uploadingAvatar()"
+            (click)="uploadAvatar()"
+          >
+            @if (uploadingAvatar()) {
+              Subiendo...
+            } @else {
+              Guardar fotografía
+            }
+          </button>
+        }
+
+        <small>
+          JPEG, PNG o WebP. Máximo 2 MB.
+        </small>
+
+      </div>
+
+    </section>
+
+    <form
+      class="profile-form"
+      (ngSubmit)="saveProfile()"
+    >
+
+      <label>
+        Nombre profesional o negocio
+
+        <input
+          type="text"
+          name="name"
+          [(ngModel)]="form.name"
+          minlength="2"
+          maxlength="100"
+          required
+        />
+      </label>
+
+      <label>
+        Descripción
+
+        <textarea
+          name="description"
+          [(ngModel)]="form.description"
+          maxlength="500"
+          rows="6"
+          placeholder="Describe tu negocio, especialidad o forma de trabajo."
+        ></textarea>
+      </label>
+
+      <div class="future-section">
+        <strong>
+          Próximamente
+        </strong>
+
+        <p>
+          Aquí también podrás gestionar foto de perfil,
+          portada y portafolio de trabajos.
+        </p>
+      </div>
+
+      <div class="actions">
+        <button
+          type="submit"
+          class="primary-button"
+          [disabled]="saving()"
+        >
+          @if (saving()) {
+            Guardando...
+          } @else {
+            Guardar cambios
+          }
+        </button>
+
+        @if (business(); as currentBusiness) {
+          <a
+            [routerLink]="[
+              '/business',
+              currentBusiness.id
+            ]"
+          >
+            Ver perfil público
+          </a>
+        }
+
+      </div>
+
+    </form>
+  }
+
+</main>

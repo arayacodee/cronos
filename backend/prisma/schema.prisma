@@ -39,6 +39,11 @@ model Business {
   timezone       String @default("America/Santiago")
   ownerId        String
 
+  avatarUrl      String?
+  avatarPublicId String?
+  coverUrl       String?
+  coverPublicId  String?
+
   owner          User           @relation(fields: [ownerId], references: [id])
   services       Service[]
   availabilities Availability[]
@@ -47,6 +52,7 @@ model Business {
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
 }
+
 
 model Service {
   id           String        @id @default(uuid())

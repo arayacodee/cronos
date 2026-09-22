@@ -1,0 +1,88 @@
+<main class="onboarding-page">
+
+  <section class="onboarding-card">
+
+    <p class="eyebrow">
+      PERFIL PROFESIONAL
+    </p>
+
+    <h1>
+      Crea tu espacio en Cronos
+    </h1>
+
+    <p class="intro">
+      Este será el perfil público donde las personas
+      podrán conocer tus servicios y reservar contigo.
+    </p>
+
+    @if (loading()) {
+      <p>
+        Preparando tu perfil...
+      </p>
+    } @else {
+
+      <form
+        class="profile-form"
+        (ngSubmit)="createProfile()"
+      >
+
+        <label>
+          Nombre profesional o negocio
+
+          <input
+            type="text"
+            name="name"
+            [(ngModel)]="form.name"
+            maxlength="100"
+            placeholder="Ej: Ink Studio"
+            required
+          />
+        </label>
+
+        <label>
+          Descripción
+
+          <textarea
+            name="description"
+            [(ngModel)]="form.description"
+            maxlength="500"
+            rows="5"
+            placeholder="Describe tu trabajo, especialidad o servicios."
+          ></textarea>
+        </label>
+
+        <div class="future-profile">
+          <strong>
+            Tu perfil crecerá contigo
+          </strong>
+
+          <p>
+            Más adelante podrás agregar una foto,
+            portada y un portafolio de tus trabajos.
+          </p>
+        </div>
+
+        <button
+          type="submit"
+          class="primary-button"
+          [disabled]="saving()"
+        >
+          @if (saving()) {
+            Creando perfil...
+          } @else {
+            Crear mi perfil
+          }
+        </button>
+
+      </form>
+    }
+
+    @if (errorMessage()) {
+      <p class="error">
+        {{ errorMessage() }}
+      </p>
+    }
+
+  </section>
+
+</main>

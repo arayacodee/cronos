@@ -30,6 +30,10 @@ export type BusinessMinAggregateOutputType = {
   description: string | null
   timezone: string | null
   ownerId: string | null
+  avatarUrl: string | null
+  avatarPublicId: string | null
+  coverUrl: string | null
+  coverPublicId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -40,6 +44,10 @@ export type BusinessMaxAggregateOutputType = {
   description: string | null
   timezone: string | null
   ownerId: string | null
+  avatarUrl: string | null
+  avatarPublicId: string | null
+  coverUrl: string | null
+  coverPublicId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -50,6 +58,10 @@ export type BusinessCountAggregateOutputType = {
   description: number
   timezone: number
   ownerId: number
+  avatarUrl: number
+  avatarPublicId: number
+  coverUrl: number
+  coverPublicId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -62,6 +74,10 @@ export type BusinessMinAggregateInputType = {
   description?: true
   timezone?: true
   ownerId?: true
+  avatarUrl?: true
+  avatarPublicId?: true
+  coverUrl?: true
+  coverPublicId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -72,6 +88,10 @@ export type BusinessMaxAggregateInputType = {
   description?: true
   timezone?: true
   ownerId?: true
+  avatarUrl?: true
+  avatarPublicId?: true
+  coverUrl?: true
+  coverPublicId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -82,6 +102,10 @@ export type BusinessCountAggregateInputType = {
   description?: true
   timezone?: true
   ownerId?: true
+  avatarUrl?: true
+  avatarPublicId?: true
+  coverUrl?: true
+  coverPublicId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -165,6 +189,10 @@ export type BusinessGroupByOutputType = {
   description: string | null
   timezone: string
   ownerId: string
+  avatarUrl: string | null
+  avatarPublicId: string | null
+  coverUrl: string | null
+  coverPublicId: string | null
   createdAt: Date
   updatedAt: Date
   _count: BusinessCountAggregateOutputType | null
@@ -196,6 +224,10 @@ export type BusinessWhereInput = {
   description?: Prisma.StringNullableFilter<"Business"> | string | null
   timezone?: Prisma.StringFilter<"Business"> | string
   ownerId?: Prisma.StringFilter<"Business"> | string
+  avatarUrl?: Prisma.StringNullableFilter<"Business"> | string | null
+  avatarPublicId?: Prisma.StringNullableFilter<"Business"> | string | null
+  coverUrl?: Prisma.StringNullableFilter<"Business"> | string | null
+  coverPublicId?: Prisma.StringNullableFilter<"Business"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Business"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Business"> | Date | string
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -210,6 +242,10 @@ export type BusinessOrderByWithRelationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   timezone?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  avatarPublicId?: Prisma.SortOrderInput | Prisma.SortOrder
+  coverUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  coverPublicId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   owner?: Prisma.UserOrderByWithRelationInput
@@ -227,6 +263,10 @@ export type BusinessWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringNullableFilter<"Business"> | string | null
   timezone?: Prisma.StringFilter<"Business"> | string
   ownerId?: Prisma.StringFilter<"Business"> | string
+  avatarUrl?: Prisma.StringNullableFilter<"Business"> | string | null
+  avatarPublicId?: Prisma.StringNullableFilter<"Business"> | string | null
+  coverUrl?: Prisma.StringNullableFilter<"Business"> | string | null
+  coverPublicId?: Prisma.StringNullableFilter<"Business"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Business"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Business"> | Date | string
   owner?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
@@ -241,6 +281,10 @@ export type BusinessOrderByWithAggregationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   timezone?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  avatarPublicId?: Prisma.SortOrderInput | Prisma.SortOrder
+  coverUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  coverPublicId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.BusinessCountOrderByAggregateInput
@@ -257,6 +301,10 @@ export type BusinessScalarWhereWithAggregatesInput = {
   description?: Prisma.StringNullableWithAggregatesFilter<"Business"> | string | null
   timezone?: Prisma.StringWithAggregatesFilter<"Business"> | string
   ownerId?: Prisma.StringWithAggregatesFilter<"Business"> | string
+  avatarUrl?: Prisma.StringNullableWithAggregatesFilter<"Business"> | string | null
+  avatarPublicId?: Prisma.StringNullableWithAggregatesFilter<"Business"> | string | null
+  coverUrl?: Prisma.StringNullableWithAggregatesFilter<"Business"> | string | null
+  coverPublicId?: Prisma.StringNullableWithAggregatesFilter<"Business"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Business"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Business"> | Date | string
 }
@@ -266,6 +314,10 @@ export type BusinessCreateInput = {
   name: string
   description?: string | null
   timezone?: string
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  coverUrl?: string | null
+  coverPublicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutBusinessesInput
@@ -280,6 +332,10 @@ export type BusinessUncheckedCreateInput = {
   description?: string | null
   timezone?: string
   ownerId: string
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  coverUrl?: string | null
+  coverPublicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutBusinessInput
@@ -292,6 +348,10 @@ export type BusinessUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutBusinessesNestedInput
@@ -306,6 +366,10 @@ export type BusinessUncheckedUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   services?: Prisma.ServiceUncheckedUpdateManyWithoutBusinessNestedInput
@@ -319,6 +383,10 @@ export type BusinessCreateManyInput = {
   description?: string | null
   timezone?: string
   ownerId: string
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  coverUrl?: string | null
+  coverPublicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -328,6 +396,10 @@ export type BusinessUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -338,6 +410,10 @@ export type BusinessUncheckedUpdateManyInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -358,6 +434,10 @@ export type BusinessCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrder
+  avatarPublicId?: Prisma.SortOrder
+  coverUrl?: Prisma.SortOrder
+  coverPublicId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -368,6 +448,10 @@ export type BusinessMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrder
+  avatarPublicId?: Prisma.SortOrder
+  coverUrl?: Prisma.SortOrder
+  coverPublicId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -378,6 +462,10 @@ export type BusinessMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   timezone?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
+  avatarUrl?: Prisma.SortOrder
+  avatarPublicId?: Prisma.SortOrder
+  coverUrl?: Prisma.SortOrder
+  coverPublicId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -476,6 +564,10 @@ export type BusinessCreateWithoutOwnerInput = {
   name: string
   description?: string | null
   timezone?: string
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  coverUrl?: string | null
+  coverPublicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   services?: Prisma.ServiceCreateNestedManyWithoutBusinessInput
@@ -488,6 +580,10 @@ export type BusinessUncheckedCreateWithoutOwnerInput = {
   name: string
   description?: string | null
   timezone?: string
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  coverUrl?: string | null
+  coverPublicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutBusinessInput
@@ -530,6 +626,10 @@ export type BusinessScalarWhereInput = {
   description?: Prisma.StringNullableFilter<"Business"> | string | null
   timezone?: Prisma.StringFilter<"Business"> | string
   ownerId?: Prisma.StringFilter<"Business"> | string
+  avatarUrl?: Prisma.StringNullableFilter<"Business"> | string | null
+  avatarPublicId?: Prisma.StringNullableFilter<"Business"> | string | null
+  coverUrl?: Prisma.StringNullableFilter<"Business"> | string | null
+  coverPublicId?: Prisma.StringNullableFilter<"Business"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Business"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Business"> | Date | string
 }
@@ -539,6 +639,10 @@ export type BusinessCreateWithoutServicesInput = {
   name: string
   description?: string | null
   timezone?: string
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  coverUrl?: string | null
+  coverPublicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutBusinessesInput
@@ -552,6 +656,10 @@ export type BusinessUncheckedCreateWithoutServicesInput = {
   description?: string | null
   timezone?: string
   ownerId: string
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  coverUrl?: string | null
+  coverPublicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   availabilities?: Prisma.AvailabilityUncheckedCreateNestedManyWithoutBusinessInput
@@ -579,6 +687,10 @@ export type BusinessUpdateWithoutServicesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutBusinessesNestedInput
@@ -592,6 +704,10 @@ export type BusinessUncheckedUpdateWithoutServicesInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availabilities?: Prisma.AvailabilityUncheckedUpdateManyWithoutBusinessNestedInput
@@ -603,6 +719,10 @@ export type BusinessCreateWithoutAvailabilitiesInput = {
   name: string
   description?: string | null
   timezone?: string
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  coverUrl?: string | null
+  coverPublicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutBusinessesInput
@@ -616,6 +736,10 @@ export type BusinessUncheckedCreateWithoutAvailabilitiesInput = {
   description?: string | null
   timezone?: string
   ownerId: string
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  coverUrl?: string | null
+  coverPublicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutBusinessInput
@@ -643,6 +767,10 @@ export type BusinessUpdateWithoutAvailabilitiesInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutBusinessesNestedInput
@@ -656,6 +784,10 @@ export type BusinessUncheckedUpdateWithoutAvailabilitiesInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   services?: Prisma.ServiceUncheckedUpdateManyWithoutBusinessNestedInput
@@ -667,6 +799,10 @@ export type BusinessCreateWithoutReservationsInput = {
   name: string
   description?: string | null
   timezone?: string
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  coverUrl?: string | null
+  coverPublicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   owner: Prisma.UserCreateNestedOneWithoutBusinessesInput
@@ -680,6 +816,10 @@ export type BusinessUncheckedCreateWithoutReservationsInput = {
   description?: string | null
   timezone?: string
   ownerId: string
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  coverUrl?: string | null
+  coverPublicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutBusinessInput
@@ -707,6 +847,10 @@ export type BusinessUpdateWithoutReservationsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   owner?: Prisma.UserUpdateOneRequiredWithoutBusinessesNestedInput
@@ -720,6 +864,10 @@ export type BusinessUncheckedUpdateWithoutReservationsInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
   ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   services?: Prisma.ServiceUncheckedUpdateManyWithoutBusinessNestedInput
@@ -731,6 +879,10 @@ export type BusinessCreateManyOwnerInput = {
   name: string
   description?: string | null
   timezone?: string
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  coverUrl?: string | null
+  coverPublicId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -740,6 +892,10 @@ export type BusinessUpdateWithoutOwnerInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   services?: Prisma.ServiceUpdateManyWithoutBusinessNestedInput
@@ -752,6 +908,10 @@ export type BusinessUncheckedUpdateWithoutOwnerInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   services?: Prisma.ServiceUncheckedUpdateManyWithoutBusinessNestedInput
@@ -764,6 +924,10 @@ export type BusinessUncheckedUpdateManyWithoutOwnerInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -823,6 +987,10 @@ export type BusinessSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   description?: boolean
   timezone?: boolean
   ownerId?: boolean
+  avatarUrl?: boolean
+  avatarPublicId?: boolean
+  coverUrl?: boolean
+  coverPublicId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -838,6 +1006,10 @@ export type BusinessSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   description?: boolean
   timezone?: boolean
   ownerId?: boolean
+  avatarUrl?: boolean
+  avatarPublicId?: boolean
+  coverUrl?: boolean
+  coverPublicId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -849,6 +1021,10 @@ export type BusinessSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   description?: boolean
   timezone?: boolean
   ownerId?: boolean
+  avatarUrl?: boolean
+  avatarPublicId?: boolean
+  coverUrl?: boolean
+  coverPublicId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
@@ -860,11 +1036,15 @@ export type BusinessSelectScalar = {
   description?: boolean
   timezone?: boolean
   ownerId?: boolean
+  avatarUrl?: boolean
+  avatarPublicId?: boolean
+  coverUrl?: boolean
+  coverPublicId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type BusinessOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "timezone" | "ownerId" | "createdAt" | "updatedAt", ExtArgs["result"]["business"]>
+export type BusinessOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "description" | "timezone" | "ownerId" | "avatarUrl" | "avatarPublicId" | "coverUrl" | "coverPublicId" | "createdAt" | "updatedAt", ExtArgs["result"]["business"]>
 export type BusinessInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   services?: boolean | Prisma.Business$servicesArgs<ExtArgs>
@@ -893,6 +1073,10 @@ export type $BusinessPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     description: string | null
     timezone: string
     ownerId: string
+    avatarUrl: string | null
+    avatarPublicId: string | null
+    coverUrl: string | null
+    coverPublicId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["business"]>
@@ -1327,6 +1511,10 @@ export interface BusinessFieldRefs {
   readonly description: Prisma.FieldRef<"Business", 'String'>
   readonly timezone: Prisma.FieldRef<"Business", 'String'>
   readonly ownerId: Prisma.FieldRef<"Business", 'String'>
+  readonly avatarUrl: Prisma.FieldRef<"Business", 'String'>
+  readonly avatarPublicId: Prisma.FieldRef<"Business", 'String'>
+  readonly coverUrl: Prisma.FieldRef<"Business", 'String'>
+  readonly coverPublicId: Prisma.FieldRef<"Business", 'String'>
   readonly createdAt: Prisma.FieldRef<"Business", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Business", 'DateTime'>
 }

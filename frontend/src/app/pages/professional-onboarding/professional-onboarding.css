@@ -1,0 +1,100 @@
+.onboarding-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 60px 24px 100px;
+}
+
+.onboarding-card {
+  max-width: 600px;
+}
+
+.eyebrow {
+  margin-bottom: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+h1 {
+  margin: 0;
+  font-size: 44px;
+}
+
+.intro {
+  margin-top: 18px;
+  max-width: 540px;
+  line-height: 1.6;
+}
+
+.profile-form {
+  display: grid;
+  gap: 22px;
+  margin-top: 40px;
+}
+
+label {
+  display: grid;
+  gap: 8px;
+  font-weight: 600;
+}
+
+input,
+textarea {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 14px;
+
+  border: 1px solid #ccc;
+  border-radius: 9px;
+
+  font: inherit;
+}
+
+textarea {
+  resize: vertical;
+}
+
+.future-profile {
+  padding: 18px;
+
+  border: 1px solid #ddd;
+  border-radius: 12px;
+
+  background: #fafafa;
+}
+
+.future-profile p {
+  margin: 7px 0 0;
+  line-height: 1.5;
+}
+
+.primary-button {
+  width: fit-content;
+
+  padding: 13px 20px;
+
+  border: 0;
+  border-radius: 9px;
+
+  background: #111;
+  color: white;
+
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+}
+
+.primary-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.error {
+  margin-top: 20px;
+  padding: 12px;
+
+  border-radius: 8px;
+
+  background: #fff0f0;
+  color: #a00000;
+}

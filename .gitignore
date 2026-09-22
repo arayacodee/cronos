@@ -23,3 +23,8 @@ coverage/
 # OS
 .DS_Store
 Thumbs.db
+
+# AI assistant configuration
+.codex/
+.gemini/
+AGENTS.md

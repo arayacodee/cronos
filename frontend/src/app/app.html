@@ -1,0 +1,55 @@
+<header class="site-header">
+  <div class="navigation">
+
+    <a
+      routerLink="/"
+      class="brand"
+    >
+      Cronos
+    </a>
+
+    <nav class="nav-links">
+      <a routerLink="/">
+        Explorar
+      </a>
+
+      @if (auth.isClient()) {
+        <a routerLink="/my-reservations">
+          Mis reservas
+        </a>
+      }
+
+      @if (auth.isProfessional()) {
+        <a routerLink="/dashboard">
+          Dashboard
+        </a>
+      }
+
+      @if (auth.currentUser(); as user) {
+        <div class="account">
+          <span class="account-name">
+            {{ user.name || user.email }}
+          </span>
+
+          <button
+            type="button"
+            class="logout-button"
+            (click)="logout()"
+          >
+            Salir
+          </button>
+        </div>
+      } @else {
+        <a
+          routerLink="/login"
+          class="login-button"
+        >
+          Ingresar
+        </a>
+      }
+    </nav>
+
+  </div>
+</header>
+
+<router-outlet></router-outlet>

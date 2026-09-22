@@ -1,14 +1,31 @@
 import type { Request, Response } from "express";
 import { z } from "zod";
+
 import { prisma } from "../lib/prisma.js";
+
+import { uploadImageBuffer } from "../lib/cloudinary-upload.js";
 
 const createBusinessSchema = z.object({
   name: z.string().min(2).max(100),
   description: z.string().max(500).optional(),
-  ownerId: z.string().uuid(),
 });
 
-export const createBusiness = async (req: Request, res: Response) => {
+const updateBusinessSchema = z
+  .object({
+    name: z.string().min(2).max(100).optional(),
+    description: z.string().max(500).nullable().optional(),
+  })
+  .refine(
+    (data) => Object.keys(data).length > 0,
+    {
+      message: "At least one field is required",
+    }
+  );
+
+export const createBusiness = async (
+  req: Request,
+  res: Response
+) => {
   const result = createBusinessSchema.safeParse(req.body);
 
   if (!result.success) {
@@ -18,48 +35,50 @@ export const createBusiness = async (req: Request, res: Response) => {
     });
   }
 
-  const { name, description, ownerId } = result.data;
+  const { name, description } = result.data;
+  const ownerId = req.authUser!.id;
 
   try {
-    const owner = await prisma.user.findUnique({
-      where: {
-        id: ownerId,
-      },
-    });
+    // En el MVP cada profesional utiliza un perfil principal.
+    // Evitamos crear perfiles duplicados accidentalmente.
+    const existingBusiness =
+      await prisma.business.findFirst({
+        where: {
+          ownerId,
+        },
+      });
 
-    if (!owner) {
-      return res.status(404).json({
-        error: "Owner not found",
+    if (existingBusiness) {
+      return res.status(409).json({
+        error: "Professional profile already exists",
       });
     }
 
-    if (owner.role !== "PROFESSIONAL") {
-      return res.status(403).json({
-        error: "Only professional users can create a business",
-      });
-    }
+    const business =
+      await prisma.business.create({
+        data: {
+          name,
+          description,
+          ownerId,
+        },
 
-    const business = await prisma.business.create({
-      data: {
-        name,
-        description,
-        ownerId,
-      },
-      include: {
-        owner: {
-          select: {
-            id: true,
-            email: true,
-            name: true,
-            role: true,
+        include: {
+          owner: {
+            select: {
+              id: true,
+              name: true,
+              role: true,
+            },
           },
         },
-      },
-    });
+      });
 
     return res.status(201).json(business);
   } catch (error) {
-    console.error("Create business error:", error);
+    console.error(
+      "Create business error:",
+      error
+    );
 
     return res.status(500).json({
       error: "Internal server error",
@@ -67,19 +86,22 @@ export const createBusiness = async (req: Request, res: Response) => {
   }
 };
 
-export const getBusinesses = async (_req: Request, res: Response) => {
+export const getBusinesses = async (
+  _req: Request,
+  res: Response
+) => {
   try {
     const businesses = await prisma.business.findMany({
       include: {
         owner: {
           select: {
             id: true,
-            email: true,
             name: true,
             role: true,
           },
         },
       },
+
       orderBy: {
         createdAt: "desc",
       },
@@ -88,6 +110,58 @@ export const getBusinesses = async (_req: Request, res: Response) => {
     return res.status(200).json(businesses);
   } catch (error) {
     console.error("Get businesses error:", error);
+
+    return res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+};
+
+export const getMyBusiness = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    // La identidad viene de la sesión HttpOnly.
+    // No aceptamos ownerId enviado desde Angular.
+    const business =
+      await prisma.business.findFirst({
+        where: {
+          ownerId: req.authUser!.id,
+        },
+
+        include: {
+          services: {
+            orderBy: {
+              createdAt: "desc",
+            },
+          },
+
+          availabilities: {
+            orderBy: [
+              {
+                dayOfWeek: "asc",
+              },
+              {
+                startTime: "asc",
+              },
+            ],
+          },
+        },
+      });
+
+    if (!business) {
+      return res.status(404).json({
+        error: "Professional profile not found",
+      });
+    }
+
+    return res.status(200).json(business);
+  } catch (error) {
+    console.error(
+      "Get my business error:",
+      error
+    );
 
     return res.status(500).json({
       error: "Internal server error",
@@ -106,17 +180,21 @@ export const getBusinessById = async (
       where: {
         id,
       },
+
       include: {
         owner: {
           select: {
             id: true,
-            email: true,
             name: true,
             role: true,
           },
         },
-        services: true,
-        availabilities: true,
+
+        services: {
+          where: {
+            isActive: true,
+          },
+        },
       },
     });
 
@@ -134,4 +212,215 @@ export const getBusinessById = async (
       error: "Internal server error",
     });
   }
+};
+
+export const updateBusinessAvatar = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        error: "Image is required",
+      });
+    }
+
+    if (req.file.size > 2 * 1024 * 1024) {
+      return res.status(413).json({
+        error: "Avatar must not exceed 2 MB",
+      });
+    }
+
+    // El negocio se obtiene desde la sesión activa.
+    // El navegador nunca decide qué businessId modificar.
+    const business =
+      await prisma.business.findFirst({
+        where: {
+          ownerId: req.authUser!.id,
+        },
+      });
+
+    if (!business) {
+      return res.status(404).json({
+        error: "Professional profile not found",
+      });
+    }
+
+    const uploaded =
+      await uploadImageBuffer(
+        req.file.buffer,
+        {
+          folder:
+            `cronos/businesses/${business.id}/avatar`,
+
+          public_id: "profile",
+
+          resource_type: "image",
+
+          overwrite: true,
+          invalidate: true,
+        }
+      );
+
+    // Neon guarda únicamente la URL y el identificador.
+    // El archivo real permanece almacenado en Cloudinary.
+    const updatedBusiness =
+      await prisma.business.update({
+        where: {
+          id: business.id,
+        },
+
+        data: {
+          avatarUrl:
+            uploaded.secure_url,
+
+          avatarPublicId:
+            uploaded.public_id,
+        },
+      });
+
+    return res
+      .status(200)
+      .json(updatedBusiness);
+  } catch (error) {
+    console.error(
+      "Update business avatar error:",
+      error
+    );
+
+    return res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+};
+
+export const updateBusinessCover = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({
+        error: "Image is required",
+      });
+    }
+
+    // La portada admite hasta 5 MB porque normalmente
+    // utiliza una imagen horizontal de mayor resolución.
+    if (req.file.size > 5 * 1024 * 1024) {
+      return res.status(413).json({
+        error: "Cover must not exceed 5 MB",
+      });
+    }
+
+    const business =
+      await prisma.business.findFirst({
+        where: {
+          ownerId: req.authUser!.id,
+        },
+      });
+
+    if (!business) {
+      return res.status(404).json({
+        error: "Professional profile not found",
+      });
+    }
+
+    const uploaded =
+      await uploadImageBuffer(
+        req.file.buffer,
+        {
+          folder:
+            `cronos/businesses/${business.id}/cover`,
+
+          public_id: "hero",
+
+          resource_type: "image",
+
+          overwrite: true,
+          invalidate: true,
+        }
+      );
+
+    // Neon conserva únicamente la referencia de Cloudinary.
+    // Subir una nueva portada reemplaza la anterior.
+    const updatedBusiness =
+      await prisma.business.update({
+        where: {
+          id: business.id,
+        },
+
+        data: {
+          coverUrl: uploaded.secure_url,
+          coverPublicId: uploaded.public_id,
+        },
+      });
+
+    return res
+      .status(200)
+      .json(updatedBusiness);
+  } catch (error) {
+    console.error(
+      "Update business cover error:",
+      error
+    );
+
+    return res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+};
+
+
+export const updateMyBusiness = async (
+  req: Request,
+  res: Response
+) => {
+  const result = updateBusinessSchema.safeParse(req.body);
+
+  if (!result.success) {
+    return res.status(400).json({
+      error: "Invalid request data",
+      details: result.error.flatten(),
+    });
+  }
+
+  try {
+    // El negocio se obtiene desde el usuario autenticado.
+    // Así el profesional no puede editar perfiles ajenos
+    // manipulando un businessId desde el navegador.
+    const business = await prisma.business.findFirst({
+      where: {
+        ownerId: req.authUser!.id,
+      },
+    });
+
+    if (!business) {
+      return res.status(404).json({
+        error: "Professional profile not found",
+      });
+    }
+
+    const updatedBusiness =
+      await prisma.business.update({
+        where: {
+          id: business.id,
+        },
+
+        data: result.data,
+      });
+
+    return res.status(200).json(updatedBusiness);
+  } catch (error) {
+    console.error(
+      "Update business error:",
+      error
+    );
+
+    return res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+
+  
 };

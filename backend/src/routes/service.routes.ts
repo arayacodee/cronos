@@ -2,16 +2,40 @@ import { Router } from "express";
 
 import {
   createService,
-  getServiceById,
   getServices,
+  getServiceById,
   updateService,
 } from "../controllers/service.controller.js";
 
+import {
+  authenticate,
+  requireRole,
+} from "../middleware/auth.middleware.js";
+
 const router = Router();
 
-router.post("/", createService);
-router.get("/", getServices);
-router.get("/:id", getServiceById);
-router.patch("/:id", updateService);
+router.get(
+  "/",
+  getServices
+);
+
+router.get(
+  "/:id",
+  getServiceById
+);
+
+router.post(
+  "/",
+  authenticate,
+  requireRole("PROFESSIONAL"),
+  createService
+);
+
+router.patch(
+  "/:id",
+  authenticate,
+  requireRole("PROFESSIONAL"),
+  updateService
+);
 
 export default router;

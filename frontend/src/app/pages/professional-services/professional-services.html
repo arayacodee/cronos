@@ -1,0 +1,268 @@
+<main class="services-page">
+
+  <nav class="top-nav">
+    <a routerLink="/dashboard">
+      ← Dashboard
+    </a>
+
+    <a routerLink="/">
+      Cronos
+    </a>
+  </nav>
+
+  <header>
+    <p class="eyebrow">
+      PANEL PROFESIONAL
+    </p>
+
+    <h1>Servicios</h1>
+
+    @if (business(); as currentBusiness) {
+      <p>{{ currentBusiness.name }}</p>
+    }
+  </header>
+
+  @if (loading()) {
+    <p>Cargando servicios...</p>
+  }
+
+  @if (errorMessage()) {
+    <p class="message error">
+      {{ errorMessage() }}
+    </p>
+  }
+
+  @if (successMessage()) {
+    <p class="message success">
+      {{ successMessage() }}
+    </p>
+  }
+
+  @if (!loading()) {
+
+    <section class="create-section">
+      <h2>Nuevo servicio</h2>
+
+      <form
+        class="service-form"
+        (ngSubmit)="createService()"
+      >
+        <label>
+          Nombre
+
+          <input
+            type="text"
+            name="name"
+            [(ngModel)]="newService.name"
+            maxlength="100"
+            required
+          />
+        </label>
+
+        <label>
+          Descripción
+
+          <textarea
+            name="description"
+            [(ngModel)]="newService.description"
+            maxlength="500"
+            rows="3"
+          ></textarea>
+        </label>
+
+        <div class="form-row">
+          <label>
+            Duración en minutos
+
+            <input
+              type="number"
+              name="durationMin"
+              [(ngModel)]="newService.durationMin"
+              min="1"
+              required
+            />
+          </label>
+
+          <label>
+            Precio
+
+            <input
+              type="number"
+              name="price"
+              [(ngModel)]="newService.price"
+              min="0"
+              step="1"
+              required
+            />
+          </label>
+        </div>
+
+        <button
+          type="submit"
+          class="primary-button"
+          [disabled]="saving()"
+        >
+          @if (saving()) {
+            Guardando...
+          } @else {
+            Crear servicio
+          }
+        </button>
+      </form>
+    </section>
+
+    <section class="list-section">
+      <h2>Servicios actuales</h2>
+
+      @if (services().length === 0) {
+        <p>No hay servicios registrados.</p>
+      }
+
+      <div class="service-list">
+        @for (service of services(); track service.id) {
+
+          <article
+            class="service-card"
+            [class.inactive]="!service.isActive"
+          >
+
+            @if (editingId() !== service.id) {
+
+              <div class="service-info">
+                <div class="title-row">
+                  <h3>{{ service.name }}</h3>
+
+                  <span
+                    class="badge"
+                    [class.badge-inactive]="
+                      !service.isActive
+                    "
+                  >
+                    {{
+                      service.isActive
+                        ? 'Activo'
+                        : 'Inactivo'
+                    }}
+                  </span>
+                </div>
+
+                @if (service.description) {
+                  <p>{{ service.description }}</p>
+                }
+
+                <div class="metadata">
+                  <span>
+                    {{ service.durationMin }} minutos
+                  </span>
+
+                  <strong>
+                    {{ formatPrice(service.price) }}
+                  </strong>
+                </div>
+              </div>
+
+              <div class="actions">
+                <button
+                  type="button"
+                  (click)="startEditing(service)"
+                >
+                  Editar
+                </button>
+
+                <button
+                  type="button"
+                  (click)="toggleService(service)"
+                  [disabled]="saving()"
+                >
+                  {{
+                    service.isActive
+                      ? 'Desactivar'
+                      : 'Activar'
+                  }}
+                </button>
+              </div>
+
+            } @else {
+
+              <form
+                class="edit-form"
+                (ngSubmit)="saveService(service)"
+              >
+                <label>
+                  Nombre
+
+                  <input
+                    type="text"
+                    name="editName"
+                    [(ngModel)]="editService.name"
+                    required
+                  />
+                </label>
+
+                <label>
+                  Descripción
+
+                  <textarea
+                    name="editDescription"
+                    [(ngModel)]="
+                      editService.description
+                    "
+                    rows="3"
+                  ></textarea>
+                </label>
+
+                <div class="form-row">
+                  <label>
+                    Duración
+
+                    <input
+                      type="number"
+                      name="editDuration"
+                      [(ngModel)]="
+                        editService.durationMin
+                      "
+                      min="1"
+                    />
+                  </label>
+
+                  <label>
+                    Precio
+
+                    <input
+                      type="number"
+                      name="editPrice"
+                      [(ngModel)]="
+                        editService.price
+                      "
+                      min="0"
+                    />
+                  </label>
+                </div>
+
+                <div class="actions">
+                  <button
+                    type="submit"
+                    class="primary-button"
+                    [disabled]="saving()"
+                  >
+                    Guardar
+                  </button>
+
+                  <button
+                    type="button"
+                    (click)="cancelEditing()"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </form>
+
+            }
+
+          </article>
+        }
+      </div>
+    </section>
+
+  }
+</main>

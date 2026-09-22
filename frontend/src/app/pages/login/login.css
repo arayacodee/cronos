@@ -1,0 +1,94 @@
+.login-page {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+}
+
+.brand {
+  color: inherit;
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.login-card {
+  margin-top: 70px;
+}
+
+.eyebrow {
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.login-card h1 {
+  margin: 0;
+  font-size: 42px;
+}
+
+.role-selection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+.role-card {
+  display: grid;
+  gap: 8px;
+  padding: 22px;
+
+  border: 1px solid #ddd;
+  border-radius: 14px;
+
+  background: white;
+
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+}
+
+.role-card:hover {
+  border-color: #777;
+}
+
+.role-card.selected {
+  border: 2px solid #111;
+}
+
+.role-card strong {
+  font-size: 18px;
+}
+
+.role-card span {
+  line-height: 1.5;
+}
+
+.google-section {
+  margin-top: 32px;
+  padding-top: 28px;
+  border-top: 1px solid #ddd;
+}
+
+#google-signin-button {
+  margin-top: 16px;
+}
+
+.loading {
+  margin-top: 20px;
+}
+
+.error {
+  margin-top: 20px;
+  padding: 12px;
+  border-radius: 8px;
+  background: #fff0f0;
+  color: #a00000;
+}
+
+@media (max-width: 600px) {
+  .role-selection {
+    grid-template-columns: 1fr;
+  }
+}

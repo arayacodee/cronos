@@ -1,0 +1,163 @@
+<main class="availability-page">
+
+  <nav class="top-nav">
+    <a routerLink="/dashboard">
+      ← Dashboard
+    </a>
+
+    <a routerLink="/">
+      Cronos
+    </a>
+  </nav>
+
+  <header>
+    <p class="eyebrow">
+      PANEL PROFESIONAL
+    </p>
+
+    <h1>Disponibilidad</h1>
+
+    @if (business(); as currentBusiness) {
+      <p>{{ currentBusiness.name }}</p>
+    }
+  </header>
+
+  @if (loading()) {
+    <p>Cargando disponibilidad...</p>
+  }
+
+  @if (errorMessage()) {
+    <p class="message error">
+      {{ errorMessage() }}
+    </p>
+  }
+
+  @if (successMessage()) {
+    <p class="message success">
+      {{ successMessage() }}
+    </p>
+  }
+
+  @if (!loading()) {
+
+    <section class="create-section">
+      <h2>Agregar horario</h2>
+
+      <form
+        class="availability-form"
+        (ngSubmit)="createAvailability()"
+      >
+
+        <label>
+          Día
+
+          <select
+            name="dayOfWeek"
+            [(ngModel)]="newAvailability.dayOfWeek"
+          >
+            @for (day of days; track day.value) {
+              <option [ngValue]="day.value">
+                {{ day.label }}
+              </option>
+            }
+          </select>
+        </label>
+
+        <div class="time-row">
+          <label>
+            Desde
+
+            <input
+              type="time"
+              name="startTime"
+              [(ngModel)]="newAvailability.startTime"
+              required
+            />
+          </label>
+
+          <label>
+            Hasta
+
+            <input
+              type="time"
+              name="endTime"
+              [(ngModel)]="newAvailability.endTime"
+              required
+            />
+          </label>
+        </div>
+
+        <button
+          type="submit"
+          class="primary-button"
+          [disabled]="saving()"
+        >
+          @if (saving()) {
+            Guardando...
+          } @else {
+            Agregar horario
+          }
+        </button>
+      </form>
+    </section>
+
+    <section class="schedule-section">
+      <div class="section-heading">
+        <h2>Horario actual</h2>
+
+        <p>
+          Estos bloques determinan cuándo los clientes
+          pueden reservar.
+        </p>
+      </div>
+
+      @if (availabilities().length === 0) {
+        <div class="empty-state">
+          Todavía no hay horarios configurados.
+        </div>
+      }
+
+      <div class="availability-list">
+
+        @for (
+          availability of availabilities();
+          track availability.id
+        ) {
+          <article class="availability-card">
+
+            <div>
+              <strong>
+                {{ dayName(availability.dayOfWeek) }}
+              </strong>
+
+              <p>
+                {{ availability.startTime }}
+                —
+                {{ availability.endTime }}
+              </p>
+            </div>
+
+            <button
+              type="button"
+              class="delete-button"
+              [disabled]="
+                deletingId() === availability.id
+              "
+              (click)="deleteAvailability(availability)"
+            >
+              @if (
+                deletingId() === availability.id
+              ) {
+                Eliminando...
+              } @else {
+                Eliminar
+              }
+            </button>
+
+          </article>
+        }
+
+      </div>
+    </section>
+  }
+</main>

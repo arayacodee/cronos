@@ -849,6 +849,10 @@ export const BusinessScalarFieldEnum = {
   description: 'description',
   timezone: 'timezone',
   ownerId: 'ownerId',
+  avatarUrl: 'avatarUrl',
+  avatarPublicId: 'avatarPublicId',
+  coverUrl: 'coverUrl',
+  coverPublicId: 'coverPublicId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

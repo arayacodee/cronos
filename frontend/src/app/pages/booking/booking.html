@@ -1,0 +1,127 @@
+<main class="booking">
+  <a
+    class="back-link"
+    [routerLink]="
+      business()
+        ? ['/business', business()!.id]
+        : ['/']
+    "
+  >
+    ← Volver
+  </a>
+
+  @if (loading()) {
+    <p>Cargando reserva...</p>
+  }
+
+  @if (!loading() && service(); as currentService) {
+    <div class="booking-layout">
+      <section class="booking-main">
+        <p class="eyebrow">RESERVAR</p>
+
+        <h1>{{ currentService.name }}</h1>
+
+        @if (business(); as currentBusiness) {
+          <p class="business-name">
+            {{ currentBusiness.name }}
+          </p>
+        }
+
+        <div class="service-summary">
+          <span>
+            {{ currentService.durationMin }} minutos
+          </span>
+
+          <strong>
+            {{ formatPrice(currentService.price) }}
+          </strong>
+        </div>
+
+        <section class="step">
+          <h2>1. Selecciona una fecha</h2>
+
+          <input
+            type="date"
+            [min]="minDate"
+            [value]="selectedDate()"
+            (change)="onDateChange($event)"
+          />
+        </section>
+
+        @if (selectedDate()) {
+          <section class="step">
+            <h2>2. Selecciona una hora</h2>
+
+            @if (loadingSlots()) {
+              <p>
+                Consultando horarios disponibles...
+              </p>
+            } @else {
+
+              @if (availableTimes().length === 0) {
+                <p>
+                  No hay horarios disponibles para esta fecha.
+                </p>
+              }
+
+              <div class="time-grid">
+                @for (
+                  time of availableTimes();
+                  track time
+                ) {
+                  <button
+                    type="button"
+                    class="time-button"
+                    [class.selected]="
+                      selectedTime() === time
+                    "
+                    (click)="selectTime(time)"
+                  >
+                    {{ time }}
+                  </button>
+                }
+              </div>
+
+            }
+          </section>
+}
+        @if (selectedTime()) {
+          <section class="step confirmation">
+            <h2>3. Confirmar</h2>
+
+            <p>
+              {{ selectedDate() }}
+              a las
+              <strong>{{ selectedTime() }}</strong>
+            </p>
+
+            <button
+              type="button"
+              class="confirm-button"
+              [disabled]="submitting()"
+              (click)="confirmReservation()"
+            >
+              @if (submitting()) {
+                Confirmando...
+              } @else {
+                Confirmar reserva
+              }
+            </button>
+          </section>
+        }
+
+        @if (errorMessage()) {
+          <p class="message error">
+            {{ errorMessage() }}
+          </p>
+        }
+
+        @if (successMessage()) {
+          <p class="message success">
+            {{ successMessage() }}
+          </p>
+        }
+      </section>
+    </div>
+  }
+</main>

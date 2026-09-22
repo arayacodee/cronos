@@ -1,0 +1,154 @@
+<main>
+
+  <section class="hero">
+    <div class="hero-content">
+
+      <p class="eyebrow">
+        CRONOS
+      </p>
+
+      <h1>
+        Tu tiempo.
+        <br>
+        Mejor organizado.
+      </h1>
+
+      <p class="hero-description">
+        Descubre profesionales que gestionan sus
+        servicios y reservas con Cronos.
+      </p>
+
+      <a
+        href="#professionals"
+        class="hero-button"
+      >
+        Explorar profesionales
+      </a>
+
+    </div>
+  </section>
+
+  <section
+    id="professionals"
+    class="professionals"
+  >
+
+    <div class="section-header">
+      <p class="eyebrow">
+        PROFESIONALES
+      </p>
+
+      <h2>
+        Negocios que ya usan Cronos.
+      </h2>
+
+      <p>
+        Conoce algunos de los profesionales y
+        servicios disponibles actualmente.
+      </p>
+    </div>
+
+    @if (loading()) {
+      <div class="status-card">
+        Cargando profesionales...
+      </div>
+    }
+
+    @if (errorMessage()) {
+      <div class="status-card error">
+        {{ errorMessage() }}
+      </div>
+    }
+
+    @if (!loading() && businesses().length === 0) {
+      <div class="status-card">
+        Aún no hay profesionales disponibles.
+      </div>
+    }
+
+    <div class="business-grid">
+
+      @for (
+        business of businesses();
+        track business.id
+      ) {
+        <a
+          class="business-card"
+          [routerLink]="[
+            '/business',
+            business.id
+          ]"
+        >
+
+        <div class="business-visual">
+
+          @if (business.avatarUrl) {
+            <img
+              [src]="business.avatarUrl"
+              [alt]="'Foto de ' + business.name"
+            />
+          } @else {
+            <span>
+              {{ business.name.charAt(0) }}
+            </span>
+          }
+
+        </div>
+
+          <div class="business-information">
+
+            <div>
+              <h3>
+                {{ business.name }}
+              </h3>
+
+              @if (business.description) {
+                <p>
+                  {{ business.description }}
+                </p>
+              }
+            </div>
+
+            <span class="view-profile">
+              Ver perfil
+              <span>→</span>
+            </span>
+
+          </div>
+
+        </a>
+      }
+
+    </div>
+
+  </section>
+
+  <section class="professional-cta">
+
+    <div>
+      <p class="eyebrow">
+        PARA PROFESIONALES
+      </p>
+
+      <h2>
+        Tu negocio.
+        <br>
+        Tu propia experiencia.
+      </h2>
+
+      <p>
+        Gestiona servicios, horarios y reservas
+        desde un solo lugar.
+      </p>
+    </div>
+
+    <a
+      routerLink="/login"
+      class="dark-button"
+    >
+      Comenzar con Cronos
+    </a>
+
+  </section>
+
+</main>

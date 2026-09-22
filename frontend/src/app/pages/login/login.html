@@ -1,0 +1,95 @@
+<main class="login-page">
+
+  <a
+    routerLink="/"
+    class="brand"
+  >
+    Cronos
+  </a>
+
+  <section class="login-card">
+
+    <p class="eyebrow">
+      BIENVENIDO
+    </p>
+
+    <h1>
+      Ingresa a Cronos
+    </h1>
+
+    <p>
+      Primero selecciona cómo utilizarás
+      la plataforma.
+    </p>
+
+    <div class="role-selection">
+
+      <button
+        type="button"
+        class="role-card"
+        [class.selected]="
+          selectedRole() === 'CLIENT'
+        "
+        (click)="selectRole('CLIENT')"
+      >
+        <strong>
+          Soy cliente
+        </strong>
+
+        <span>
+          Quiero buscar servicios y reservar horas.
+        </span>
+      </button>
+
+      <button
+        type="button"
+        class="role-card"
+        [class.selected]="
+          selectedRole() === 'PROFESSIONAL'
+        "
+        (click)="
+          selectRole('PROFESSIONAL')
+        "
+      >
+        <strong>
+          Soy profesional
+        </strong>
+
+        <span>
+          Quiero ofrecer servicios y gestionar
+          mis reservas.
+        </span>
+      </button>
+
+    </div>
+
+    @if (selectedRole()) {
+
+      <div class="google-section">
+
+        <p>
+          Continúa con tu cuenta Google
+        </p>
+
+        <div
+          id="google-signin-button"
+        ></div>
+
+      </div>
+
+    }
+
+    @if (loading()) {
+      <p class="loading">
+        Iniciando sesión...
+      </p>
+    }
+
+    @if (errorMessage()) {
+      <p class="error">
+        {{ errorMessage() }}
+      </p>
+    }
+
+  </section>
+</main>

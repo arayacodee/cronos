@@ -1,0 +1,376 @@
+.profile-page {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: 70px 24px 120px;
+}
+
+
+/* HERO DEL PERFIL */
+
+.profile-hero {
+  position: relative;
+
+  display: flex;
+  min-height: 500px;
+
+  align-items: flex-end;
+
+  overflow: hidden;
+
+  border-radius: 32px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #eeeeef,
+      #dcdce0
+    );
+
+  box-shadow: var(--shadow-small);
+}
+
+.profile-cover {
+  position: absolute;
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  display: block;
+}
+
+.profile-cover-overlay {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.68),
+      rgba(0, 0, 0, 0.12) 60%,
+      rgba(0, 0, 0, 0.04)
+    );
+}
+
+.profile-cover-overlay.no-cover {
+  background:
+    linear-gradient(
+      145deg,
+      #f4f4f6,
+      #dddddf
+    );
+}
+
+/* El contenido queda sobre la portada y el overlay.
+   La clase has-cover cambia el texto a blanco cuando hay imagen. */
+.profile-hero-content {
+  position: relative;
+  z-index: 1;
+
+  display: flex;
+  width: 100%;
+
+  align-items: flex-end;
+  gap: 28px;
+
+  padding: 48px;
+}
+
+.profile-hero-content.has-cover {
+  color: white;
+}
+
+
+/* AVATAR */
+
+.profile-avatar {
+  display: grid;
+
+  width: 180px;
+  height: 180px;
+
+  flex: 0 0 180px;
+  place-items: center;
+
+  overflow: hidden;
+
+  border: 4px solid rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f0f0f2,
+      #dddddf
+    );
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.15);
+
+  font-size: 64px;
+  font-weight: 700;
+}
+
+.profile-avatar img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+  display: block;
+}
+
+
+/* INFORMACIÓN DEL NEGOCIO */
+
+.profile-heading {
+  max-width: 680px;
+}
+
+.eyebrow {
+  margin-bottom: 12px;
+
+  color: var(--text-tertiary);
+
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+}
+
+.profile-heading h1 {
+  margin-bottom: 14px;
+
+  font-size:
+    clamp(44px, 7vw, 72px);
+
+  letter-spacing: -0.05em;
+  line-height: 0.98;
+}
+
+.profile-heading p:last-child {
+  color: var(--text-secondary);
+
+  font-size: 19px;
+  line-height: 1.55;
+}
+
+.profile-hero-content.has-cover .profile-heading p {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.profile-hero-content.has-cover .eyebrow {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+
+/* SECCIONES */
+
+.content-section,
+.portfolio-section {
+  padding-top: 100px;
+}
+
+.section-title {
+  margin-bottom: 38px;
+}
+
+.section-title h2 {
+  margin: 0;
+
+  font-size:
+    clamp(32px, 4vw, 48px);
+
+  letter-spacing: -0.04em;
+}
+
+
+/* SERVICIOS */
+
+.services-list {
+  display: grid;
+  gap: 14px;
+}
+
+.service {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+
+  padding: 26px 28px;
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-medium);
+
+  background: var(--surface);
+
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.service:hover {
+  transform: translateY(-2px);
+
+  box-shadow: var(--shadow-small);
+}
+
+.service-info h3 {
+  margin-bottom: 7px;
+
+  font-size: 21px;
+}
+
+.service-info p {
+  margin-bottom: 10px;
+
+  color: var(--text-secondary);
+
+  line-height: 1.5;
+}
+
+.service-info span {
+  color: var(--text-tertiary);
+  font-size: 14px;
+}
+
+.service-action {
+  display: flex;
+
+  min-width: 130px;
+
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.service-action strong {
+  font-size: 18px;
+}
+
+.service-action a {
+  padding: 10px 18px;
+
+  border-radius: 999px;
+
+  background: var(--accent);
+  color: white;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  text-decoration: none;
+
+  transition:
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.service-action a:hover {
+  background: var(--accent-hover);
+}
+
+.service-action a:active {
+  transform: scale(0.97);
+}
+
+
+/* PORTAFOLIO */
+
+.portfolio-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 16px;
+}
+
+.portfolio-grid div {
+  aspect-ratio: 1;
+
+  border-radius: 22px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #eeeeef,
+      #dddddf
+    );
+}
+
+.portfolio-note {
+  margin-top: 18px;
+
+  color: var(--text-tertiary);
+
+  font-size: 14px;
+}
+
+
+/* ESTADOS */
+
+.empty-state,
+.status {
+  padding: 28px;
+
+  border-radius: var(--radius-medium);
+
+  background: var(--surface);
+}
+
+.error {
+  color: var(--danger);
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 700px) {
+  .profile-page {
+    padding-top: 32px;
+  }
+
+  .profile-hero {
+    min-height: 520px;
+  }
+
+  .profile-hero-content {
+    align-items: flex-start;
+    flex-direction: column;
+
+    gap: 20px;
+
+    padding: 32px;
+  }
+
+  .profile-avatar {
+    width: 110px;
+    height: 110px;
+
+    flex-basis: 110px;
+
+    border-width: 3px;
+
+    font-size: 42px;
+  }
+
+  .profile-heading h1 {
+    font-size:
+      clamp(40px, 12vw, 56px);
+  }
+
+  .service {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .service-action {
+    align-items: flex-start;
+  }
+
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+  }
+}

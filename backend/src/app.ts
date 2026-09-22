@@ -3,11 +3,14 @@ import cors from "cors";
 import { prisma } from "./lib/prisma.js";
 import { env } from "./config/env.js";
 
-import userRoutes from "./routes/user.routes.js";
+
 import businessRoutes from "./routes/business.routes.js";
 import serviceRoutes from "./routes/service.routes.js";
 import availabilityRoutes from "./routes/availability.routes.js";
 import reservationRoutes from "./routes/reservation.routes.js";
+
+import cookieParser from "cookie-parser";
+import authRoutes from "./routes/auth.routes.js";
 
 
 const app = express();
@@ -15,7 +18,16 @@ const app = express();
 app.use(
   cors({
     origin: env.CORS_ORIGIN,
+    credentials: true
   })
+);
+
+app.use(express.json());
+app.use(cookieParser());
+
+app.use(
+  "/api/auth",
+  authRoutes
 );
 
 app.use(express.json({ limit: "100kb" }));
@@ -40,7 +52,7 @@ app.get("/health", async (_req, res) => {
   }
 });
 
-app.use("/api/users", userRoutes);
+
 app.use("/api/businesses", businessRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/availabilities", availabilityRoutes);

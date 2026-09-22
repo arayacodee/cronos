@@ -11,7 +11,10 @@ const createServiceSchema = z.object({
   isActive: z.boolean().optional(),
 });
 
-export const createService = async (req: Request, res: Response) => {
+export const createService = async (
+  req: Request,
+  res: Response
+) => {
   const result = createServiceSchema.safeParse(req.body);
 
   if (!result.success) {
@@ -31,13 +34,16 @@ export const createService = async (req: Request, res: Response) => {
   } = result.data;
 
   try {
-    const business = await prisma.business.findUnique({
-      where: { id: businessId },
+    const business = await prisma.business.findFirst({
+      where: {
+        id: businessId,
+        ownerId: req.authUser!.id,
+      },
     });
 
     if (!business) {
-      return res.status(404).json({
-        error: "Business not found",
+      return res.status(403).json({
+        error: "You do not own this business",
       });
     }
 
@@ -48,7 +54,7 @@ export const createService = async (req: Request, res: Response) => {
         description,
         durationMin,
         price,
-        isActive: isActive ?? true,
+        isActive,
       },
     });
 
@@ -157,26 +163,40 @@ export const updateService = async (
   }
 
   try {
-    const existingService = await prisma.service.findUnique({
+    const service = await prisma.service.findUnique({
       where: {
         id: req.params.id,
       },
+
+      include: {
+        business: true,
+      },
     });
 
-    if (!existingService) {
+    if (!service) {
       return res.status(404).json({
         error: "Service not found",
       });
     }
 
-    const service = await prisma.service.update({
+    if (
+      service.business.ownerId !==
+      req.authUser!.id
+    ) {
+      return res.status(403).json({
+        error: "Forbidden",
+      });
+    }
+
+    const updatedService = await prisma.service.update({
       where: {
         id: req.params.id,
       },
+
       data: result.data,
     });
 
-    return res.status(200).json(service);
+    return res.status(200).json(updatedService);
   } catch (error) {
     console.error("Update service error:", error);
 

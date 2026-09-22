@@ -1,0 +1,115 @@
+.booking {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 40px;
+  text-decoration: none;
+}
+
+.booking-main {
+  max-width: 650px;
+}
+
+.eyebrow {
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.booking h1 {
+  margin: 0;
+  font-size: 42px;
+}
+
+.business-name {
+  margin-top: 8px;
+  font-size: 18px;
+}
+
+.service-summary {
+  display: flex;
+  gap: 24px;
+  margin-top: 20px;
+  padding: 18px 0;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+.step {
+  margin-top: 42px;
+}
+
+.step h2 {
+  margin-bottom: 18px;
+  font-size: 22px;
+}
+
+input[type='date'] {
+  padding: 12px 14px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.time-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fill, minmax(90px, 1fr));
+  gap: 10px;
+}
+
+.time-button {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: white;
+  cursor: pointer;
+  font: inherit;
+}
+
+.time-button:hover {
+  border-color: #444;
+}
+
+.time-button.selected {
+  border-color: #111;
+  background: #111;
+  color: white;
+}
+
+.confirm-button {
+  padding: 14px 22px;
+  border: 0;
+  border-radius: 9px;
+  background: #111;
+  color: white;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+}
+
+.confirm-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.message {
+  margin-top: 24px;
+  padding: 14px;
+  border-radius: 8px;
+}
+
+.error {
+  background: #fff0f0;
+  color: #a00000;
+}
+
+.success {
+  background: #edf8ef;
+  color: #176c2b;
+}
