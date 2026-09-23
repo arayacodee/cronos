@@ -200,6 +200,7 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   businesses?: Prisma.BusinessListRelationFilter
   reservations?: Prisma.ReservationListRelationFilter
+  clientSessions?: Prisma.ClientSessionListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -212,6 +213,7 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   businesses?: Prisma.BusinessOrderByRelationAggregateInput
   reservations?: Prisma.ReservationOrderByRelationAggregateInput
+  clientSessions?: Prisma.ClientSessionOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -227,6 +229,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   businesses?: Prisma.BusinessListRelationFilter
   reservations?: Prisma.ReservationListRelationFilter
+  clientSessions?: Prisma.ClientSessionListRelationFilter
 }, "id" | "email" | "googleId">
 
 export type UserOrderByWithAggregationInput = {
@@ -265,6 +268,7 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   businesses?: Prisma.BusinessCreateNestedManyWithoutOwnerInput
   reservations?: Prisma.ReservationCreateNestedManyWithoutClientInput
+  clientSessions?: Prisma.ClientSessionCreateNestedManyWithoutClientInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -277,6 +281,7 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   businesses?: Prisma.BusinessUncheckedCreateNestedManyWithoutOwnerInput
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutClientInput
+  clientSessions?: Prisma.ClientSessionUncheckedCreateNestedManyWithoutClientInput
 }
 
 export type UserUpdateInput = {
@@ -289,6 +294,7 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   businesses?: Prisma.BusinessUpdateManyWithoutOwnerNestedInput
   reservations?: Prisma.ReservationUpdateManyWithoutClientNestedInput
+  clientSessions?: Prisma.ClientSessionUpdateManyWithoutClientNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -301,6 +307,7 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   businesses?: Prisma.BusinessUncheckedUpdateManyWithoutOwnerNestedInput
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutClientNestedInput
+  clientSessions?: Prisma.ClientSessionUncheckedUpdateManyWithoutClientNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -412,6 +419,20 @@ export type UserUpdateOneRequiredWithoutReservationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutReservationsInput, Prisma.UserUpdateWithoutReservationsInput>, Prisma.UserUncheckedUpdateWithoutReservationsInput>
 }
 
+export type UserCreateNestedOneWithoutClientSessionsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutClientSessionsInput, Prisma.UserUncheckedCreateWithoutClientSessionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutClientSessionsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutClientSessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutClientSessionsInput, Prisma.UserUncheckedCreateWithoutClientSessionsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutClientSessionsInput
+  upsert?: Prisma.UserUpsertWithoutClientSessionsInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutClientSessionsInput, Prisma.UserUpdateWithoutClientSessionsInput>, Prisma.UserUncheckedUpdateWithoutClientSessionsInput>
+}
+
 export type UserCreateWithoutBusinessesInput = {
   id?: string
   email: string
@@ -421,6 +442,7 @@ export type UserCreateWithoutBusinessesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   reservations?: Prisma.ReservationCreateNestedManyWithoutClientInput
+  clientSessions?: Prisma.ClientSessionCreateNestedManyWithoutClientInput
 }
 
 export type UserUncheckedCreateWithoutBusinessesInput = {
@@ -432,6 +454,7 @@ export type UserUncheckedCreateWithoutBusinessesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutClientInput
+  clientSessions?: Prisma.ClientSessionUncheckedCreateNestedManyWithoutClientInput
 }
 
 export type UserCreateOrConnectWithoutBusinessesInput = {
@@ -459,6 +482,7 @@ export type UserUpdateWithoutBusinessesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reservations?: Prisma.ReservationUpdateManyWithoutClientNestedInput
+  clientSessions?: Prisma.ClientSessionUpdateManyWithoutClientNestedInput
 }
 
 export type UserUncheckedUpdateWithoutBusinessesInput = {
@@ -470,6 +494,7 @@ export type UserUncheckedUpdateWithoutBusinessesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutClientNestedInput
+  clientSessions?: Prisma.ClientSessionUncheckedUpdateManyWithoutClientNestedInput
 }
 
 export type UserCreateWithoutReservationsInput = {
@@ -481,6 +506,7 @@ export type UserCreateWithoutReservationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   businesses?: Prisma.BusinessCreateNestedManyWithoutOwnerInput
+  clientSessions?: Prisma.ClientSessionCreateNestedManyWithoutClientInput
 }
 
 export type UserUncheckedCreateWithoutReservationsInput = {
@@ -492,6 +518,7 @@ export type UserUncheckedCreateWithoutReservationsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   businesses?: Prisma.BusinessUncheckedCreateNestedManyWithoutOwnerInput
+  clientSessions?: Prisma.ClientSessionUncheckedCreateNestedManyWithoutClientInput
 }
 
 export type UserCreateOrConnectWithoutReservationsInput = {
@@ -519,6 +546,7 @@ export type UserUpdateWithoutReservationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   businesses?: Prisma.BusinessUpdateManyWithoutOwnerNestedInput
+  clientSessions?: Prisma.ClientSessionUpdateManyWithoutClientNestedInput
 }
 
 export type UserUncheckedUpdateWithoutReservationsInput = {
@@ -530,6 +558,71 @@ export type UserUncheckedUpdateWithoutReservationsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   businesses?: Prisma.BusinessUncheckedUpdateManyWithoutOwnerNestedInput
+  clientSessions?: Prisma.ClientSessionUncheckedUpdateManyWithoutClientNestedInput
+}
+
+export type UserCreateWithoutClientSessionsInput = {
+  id?: string
+  email: string
+  name?: string | null
+  role: $Enums.UserRole
+  googleId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  businesses?: Prisma.BusinessCreateNestedManyWithoutOwnerInput
+  reservations?: Prisma.ReservationCreateNestedManyWithoutClientInput
+}
+
+export type UserUncheckedCreateWithoutClientSessionsInput = {
+  id?: string
+  email: string
+  name?: string | null
+  role: $Enums.UserRole
+  googleId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  businesses?: Prisma.BusinessUncheckedCreateNestedManyWithoutOwnerInput
+  reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutClientInput
+}
+
+export type UserCreateOrConnectWithoutClientSessionsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutClientSessionsInput, Prisma.UserUncheckedCreateWithoutClientSessionsInput>
+}
+
+export type UserUpsertWithoutClientSessionsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutClientSessionsInput, Prisma.UserUncheckedUpdateWithoutClientSessionsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutClientSessionsInput, Prisma.UserUncheckedCreateWithoutClientSessionsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutClientSessionsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutClientSessionsInput, Prisma.UserUncheckedUpdateWithoutClientSessionsInput>
+}
+
+export type UserUpdateWithoutClientSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  businesses?: Prisma.BusinessUpdateManyWithoutOwnerNestedInput
+  reservations?: Prisma.ReservationUpdateManyWithoutClientNestedInput
+}
+
+export type UserUncheckedUpdateWithoutClientSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  role?: Prisma.EnumUserRoleFieldUpdateOperationsInput | $Enums.UserRole
+  googleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  businesses?: Prisma.BusinessUncheckedUpdateManyWithoutOwnerNestedInput
+  reservations?: Prisma.ReservationUncheckedUpdateManyWithoutClientNestedInput
 }
 
 
@@ -540,11 +633,13 @@ export type UserUncheckedUpdateWithoutReservationsInput = {
 export type UserCountOutputType = {
   businesses: number
   reservations: number
+  clientSessions: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   businesses?: boolean | UserCountOutputTypeCountBusinessesArgs
   reservations?: boolean | UserCountOutputTypeCountReservationsArgs
+  clientSessions?: boolean | UserCountOutputTypeCountClientSessionsArgs
 }
 
 /**
@@ -571,6 +666,13 @@ export type UserCountOutputTypeCountReservationsArgs<ExtArgs extends runtime.Typ
   where?: Prisma.ReservationWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountClientSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ClientSessionWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -582,6 +684,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   businesses?: boolean | Prisma.User$businessesArgs<ExtArgs>
   reservations?: boolean | Prisma.User$reservationsArgs<ExtArgs>
+  clientSessions?: boolean | Prisma.User$clientSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -619,6 +722,7 @@ export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   businesses?: boolean | Prisma.User$businessesArgs<ExtArgs>
   reservations?: boolean | Prisma.User$reservationsArgs<ExtArgs>
+  clientSessions?: boolean | Prisma.User$clientSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -629,6 +733,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   objects: {
     businesses: Prisma.$BusinessPayload<ExtArgs>[]
     reservations: Prisma.$ReservationPayload<ExtArgs>[]
+    clientSessions: Prisma.$ClientSessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1034,6 +1139,7 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   readonly [Symbol.toStringTag]: "PrismaPromise"
   businesses<T extends Prisma.User$businessesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$businessesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BusinessPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reservations<T extends Prisma.User$reservationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  clientSessions<T extends Prisma.User$clientSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$clientSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClientSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1508,6 +1614,30 @@ export type User$reservationsArgs<ExtArgs extends runtime.Types.Extensions.Inter
   take?: number
   skip?: number
   distinct?: Prisma.ReservationScalarFieldEnum | Prisma.ReservationScalarFieldEnum[]
+}
+
+/**
+ * User.clientSessions
+ */
+export type User$clientSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ClientSession
+   */
+  select?: Prisma.ClientSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ClientSession
+   */
+  omit?: Prisma.ClientSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClientSessionInclude<ExtArgs> | null
+  where?: Prisma.ClientSessionWhereInput
+  orderBy?: Prisma.ClientSessionOrderByWithRelationInput | Prisma.ClientSessionOrderByWithRelationInput[]
+  cursor?: Prisma.ClientSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ClientSessionScalarFieldEnum | Prisma.ClientSessionScalarFieldEnum[]
 }
 
 /**

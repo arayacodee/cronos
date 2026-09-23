@@ -23,6 +23,8 @@ interface GoogleAccountsId {
       locale?: string;
     }
   ): void;
+
+  prompt(): void;
 }
 
 interface Window {

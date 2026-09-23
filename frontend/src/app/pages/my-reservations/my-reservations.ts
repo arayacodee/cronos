@@ -127,16 +127,24 @@ export class MyReservations implements OnInit {
     }).format(Number(price));
   }
 
-  statusLabel(status: Reservation['status']): string {
+  statusLabel(
+    status: Reservation['status']
+  ): string {
     switch (status) {
-      case 'CONFIRMED':
-        return 'Confirmada';
-
       case 'PENDING':
         return 'Pendiente';
 
+      case 'CONFIRMED':
+        return 'Confirmada';
+
+      case 'COMPLETED':
+        return 'Atendida';
+
       case 'CANCELLED':
         return 'Cancelada';
+
+      default:
+        return 'Desconocido';
     }
   }
 }

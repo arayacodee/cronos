@@ -15,6 +15,14 @@ const createReservationSchema =
     )
 });
 
+const completeReservationSchema = z.object({
+  notes: z
+    .string()
+    .trim()
+    .max(1500)
+    .optional(),
+});
+
 const weekdayMap: Record<string, number> = {
   Mon: 1,
   Tue: 2,
@@ -470,6 +478,181 @@ export const cancelReservation = async (
   } catch (error) {
     console.error(
       "Cancel reservation error:",
+      error
+    );
+
+    return res.status(500).json({
+      error: "Internal server error",
+    });
+  }
+};
+
+export const completeReservation = async (
+  req: Request<{ id: string }>,
+  res: Response
+) => {
+  const result =
+    completeReservationSchema.safeParse(
+      req.body
+    );
+
+  if (!result.success) {
+    return res.status(400).json({
+      error: "Invalid request data",
+      details: result.error.flatten(),
+    });
+  }
+
+  try {
+    const reservation =
+      await prisma.reservation.findUnique({
+        where: {
+          id: req.params.id,
+        },
+
+        include: {
+          business: true,
+          service: true,
+          client: {
+            select: {
+              id: true,
+              name: true,
+              email: true,
+            },
+          },
+          clientSession: true,
+        },
+      });
+
+    if (!reservation) {
+      return res.status(404).json({
+        error: "Reservation not found",
+      });
+    }
+
+    // Solo el dueño del negocio puede registrar una atención.
+    // Esto impide generar historiales para negocios ajenos.
+    if (
+      reservation.business.ownerId !==
+      req.authUser!.id
+    ) {
+      return res.status(403).json({
+        error: "Forbidden",
+      });
+    }
+
+
+    // Una reserva futura todavía no representa una atención real.
+    // Esta regla se valida en backend aunque Angular oculte el botón.
+    if (
+      reservation.startsAt > new Date()
+    ) {
+      return res.status(409).json({
+        error:
+          "A future reservation cannot be completed",
+      });
+    }
+
+
+    if (
+      reservation.status === "CANCELLED"
+    ) {
+      return res.status(409).json({
+        error:
+          "A cancelled reservation cannot be completed",
+      });
+    }
+
+    if (
+      reservation.status === "PENDING"
+    ) {
+      return res.status(409).json({
+        error:
+          "The reservation must be confirmed first",
+      });
+    }
+
+
+
+    // Si ya fue completada, devolvemos la sesión existente.
+    // Así evitamos duplicar el historial accidentalmente.
+    if (
+      reservation.status === "COMPLETED" &&
+      reservation.clientSession
+    ) {
+      return res.status(200).json({
+        reservation,
+        session:
+          reservation.clientSession,
+      });
+    }
+
+    const completed =
+      await prisma.$transaction(
+        async (tx) => {
+          const updatedReservation =
+            await tx.reservation.update({
+              where: {
+                id: reservation.id,
+              },
+
+              data: {
+                status: "COMPLETED",
+              },
+            });
+
+          const session =
+            await tx.clientSession.create({
+              data: {
+                businessId:
+                  reservation.businessId,
+
+                clientId:
+                  reservation.clientId,
+
+                reservationId:
+                  reservation.id,
+
+                occurredAt:
+                  new Date(),
+
+                notes:
+                  result.data.notes ||
+                  null,
+              },
+
+              include: {
+                client: {
+                  select: {
+                    id: true,
+                    name: true,
+                    email: true,
+                  },
+                },
+
+                reservation: {
+                  include: {
+                    service: true,
+                  },
+                },
+              },
+            });
+
+          return {
+            reservation:
+              updatedReservation,
+
+            session,
+          };
+        }
+      );
+
+    return res
+      .status(200)
+      .json(completed);
+  } catch (error) {
+    console.error(
+      "Complete reservation error:",
       error
     );
 

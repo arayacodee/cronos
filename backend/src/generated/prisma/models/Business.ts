@@ -234,6 +234,7 @@ export type BusinessWhereInput = {
   services?: Prisma.ServiceListRelationFilter
   availabilities?: Prisma.AvailabilityListRelationFilter
   reservations?: Prisma.ReservationListRelationFilter
+  clientSessions?: Prisma.ClientSessionListRelationFilter
 }
 
 export type BusinessOrderByWithRelationInput = {
@@ -252,6 +253,7 @@ export type BusinessOrderByWithRelationInput = {
   services?: Prisma.ServiceOrderByRelationAggregateInput
   availabilities?: Prisma.AvailabilityOrderByRelationAggregateInput
   reservations?: Prisma.ReservationOrderByRelationAggregateInput
+  clientSessions?: Prisma.ClientSessionOrderByRelationAggregateInput
 }
 
 export type BusinessWhereUniqueInput = Prisma.AtLeast<{
@@ -273,6 +275,7 @@ export type BusinessWhereUniqueInput = Prisma.AtLeast<{
   services?: Prisma.ServiceListRelationFilter
   availabilities?: Prisma.AvailabilityListRelationFilter
   reservations?: Prisma.ReservationListRelationFilter
+  clientSessions?: Prisma.ClientSessionListRelationFilter
 }, "id">
 
 export type BusinessOrderByWithAggregationInput = {
@@ -324,6 +327,7 @@ export type BusinessCreateInput = {
   services?: Prisma.ServiceCreateNestedManyWithoutBusinessInput
   availabilities?: Prisma.AvailabilityCreateNestedManyWithoutBusinessInput
   reservations?: Prisma.ReservationCreateNestedManyWithoutBusinessInput
+  clientSessions?: Prisma.ClientSessionCreateNestedManyWithoutBusinessInput
 }
 
 export type BusinessUncheckedCreateInput = {
@@ -341,6 +345,7 @@ export type BusinessUncheckedCreateInput = {
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutBusinessInput
   availabilities?: Prisma.AvailabilityUncheckedCreateNestedManyWithoutBusinessInput
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutBusinessInput
+  clientSessions?: Prisma.ClientSessionUncheckedCreateNestedManyWithoutBusinessInput
 }
 
 export type BusinessUpdateInput = {
@@ -358,6 +363,7 @@ export type BusinessUpdateInput = {
   services?: Prisma.ServiceUpdateManyWithoutBusinessNestedInput
   availabilities?: Prisma.AvailabilityUpdateManyWithoutBusinessNestedInput
   reservations?: Prisma.ReservationUpdateManyWithoutBusinessNestedInput
+  clientSessions?: Prisma.ClientSessionUpdateManyWithoutBusinessNestedInput
 }
 
 export type BusinessUncheckedUpdateInput = {
@@ -375,6 +381,7 @@ export type BusinessUncheckedUpdateInput = {
   services?: Prisma.ServiceUncheckedUpdateManyWithoutBusinessNestedInput
   availabilities?: Prisma.AvailabilityUncheckedUpdateManyWithoutBusinessNestedInput
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutBusinessNestedInput
+  clientSessions?: Prisma.ClientSessionUncheckedUpdateManyWithoutBusinessNestedInput
 }
 
 export type BusinessCreateManyInput = {
@@ -559,6 +566,20 @@ export type BusinessUpdateOneRequiredWithoutReservationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.BusinessUpdateToOneWithWhereWithoutReservationsInput, Prisma.BusinessUpdateWithoutReservationsInput>, Prisma.BusinessUncheckedUpdateWithoutReservationsInput>
 }
 
+export type BusinessCreateNestedOneWithoutClientSessionsInput = {
+  create?: Prisma.XOR<Prisma.BusinessCreateWithoutClientSessionsInput, Prisma.BusinessUncheckedCreateWithoutClientSessionsInput>
+  connectOrCreate?: Prisma.BusinessCreateOrConnectWithoutClientSessionsInput
+  connect?: Prisma.BusinessWhereUniqueInput
+}
+
+export type BusinessUpdateOneRequiredWithoutClientSessionsNestedInput = {
+  create?: Prisma.XOR<Prisma.BusinessCreateWithoutClientSessionsInput, Prisma.BusinessUncheckedCreateWithoutClientSessionsInput>
+  connectOrCreate?: Prisma.BusinessCreateOrConnectWithoutClientSessionsInput
+  upsert?: Prisma.BusinessUpsertWithoutClientSessionsInput
+  connect?: Prisma.BusinessWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.BusinessUpdateToOneWithWhereWithoutClientSessionsInput, Prisma.BusinessUpdateWithoutClientSessionsInput>, Prisma.BusinessUncheckedUpdateWithoutClientSessionsInput>
+}
+
 export type BusinessCreateWithoutOwnerInput = {
   id?: string
   name: string
@@ -573,6 +594,7 @@ export type BusinessCreateWithoutOwnerInput = {
   services?: Prisma.ServiceCreateNestedManyWithoutBusinessInput
   availabilities?: Prisma.AvailabilityCreateNestedManyWithoutBusinessInput
   reservations?: Prisma.ReservationCreateNestedManyWithoutBusinessInput
+  clientSessions?: Prisma.ClientSessionCreateNestedManyWithoutBusinessInput
 }
 
 export type BusinessUncheckedCreateWithoutOwnerInput = {
@@ -589,6 +611,7 @@ export type BusinessUncheckedCreateWithoutOwnerInput = {
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutBusinessInput
   availabilities?: Prisma.AvailabilityUncheckedCreateNestedManyWithoutBusinessInput
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutBusinessInput
+  clientSessions?: Prisma.ClientSessionUncheckedCreateNestedManyWithoutBusinessInput
 }
 
 export type BusinessCreateOrConnectWithoutOwnerInput = {
@@ -648,6 +671,7 @@ export type BusinessCreateWithoutServicesInput = {
   owner: Prisma.UserCreateNestedOneWithoutBusinessesInput
   availabilities?: Prisma.AvailabilityCreateNestedManyWithoutBusinessInput
   reservations?: Prisma.ReservationCreateNestedManyWithoutBusinessInput
+  clientSessions?: Prisma.ClientSessionCreateNestedManyWithoutBusinessInput
 }
 
 export type BusinessUncheckedCreateWithoutServicesInput = {
@@ -664,6 +688,7 @@ export type BusinessUncheckedCreateWithoutServicesInput = {
   updatedAt?: Date | string
   availabilities?: Prisma.AvailabilityUncheckedCreateNestedManyWithoutBusinessInput
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutBusinessInput
+  clientSessions?: Prisma.ClientSessionUncheckedCreateNestedManyWithoutBusinessInput
 }
 
 export type BusinessCreateOrConnectWithoutServicesInput = {
@@ -696,6 +721,7 @@ export type BusinessUpdateWithoutServicesInput = {
   owner?: Prisma.UserUpdateOneRequiredWithoutBusinessesNestedInput
   availabilities?: Prisma.AvailabilityUpdateManyWithoutBusinessNestedInput
   reservations?: Prisma.ReservationUpdateManyWithoutBusinessNestedInput
+  clientSessions?: Prisma.ClientSessionUpdateManyWithoutBusinessNestedInput
 }
 
 export type BusinessUncheckedUpdateWithoutServicesInput = {
@@ -712,6 +738,7 @@ export type BusinessUncheckedUpdateWithoutServicesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availabilities?: Prisma.AvailabilityUncheckedUpdateManyWithoutBusinessNestedInput
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutBusinessNestedInput
+  clientSessions?: Prisma.ClientSessionUncheckedUpdateManyWithoutBusinessNestedInput
 }
 
 export type BusinessCreateWithoutAvailabilitiesInput = {
@@ -728,6 +755,7 @@ export type BusinessCreateWithoutAvailabilitiesInput = {
   owner: Prisma.UserCreateNestedOneWithoutBusinessesInput
   services?: Prisma.ServiceCreateNestedManyWithoutBusinessInput
   reservations?: Prisma.ReservationCreateNestedManyWithoutBusinessInput
+  clientSessions?: Prisma.ClientSessionCreateNestedManyWithoutBusinessInput
 }
 
 export type BusinessUncheckedCreateWithoutAvailabilitiesInput = {
@@ -744,6 +772,7 @@ export type BusinessUncheckedCreateWithoutAvailabilitiesInput = {
   updatedAt?: Date | string
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutBusinessInput
   reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutBusinessInput
+  clientSessions?: Prisma.ClientSessionUncheckedCreateNestedManyWithoutBusinessInput
 }
 
 export type BusinessCreateOrConnectWithoutAvailabilitiesInput = {
@@ -776,6 +805,7 @@ export type BusinessUpdateWithoutAvailabilitiesInput = {
   owner?: Prisma.UserUpdateOneRequiredWithoutBusinessesNestedInput
   services?: Prisma.ServiceUpdateManyWithoutBusinessNestedInput
   reservations?: Prisma.ReservationUpdateManyWithoutBusinessNestedInput
+  clientSessions?: Prisma.ClientSessionUpdateManyWithoutBusinessNestedInput
 }
 
 export type BusinessUncheckedUpdateWithoutAvailabilitiesInput = {
@@ -792,6 +822,7 @@ export type BusinessUncheckedUpdateWithoutAvailabilitiesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   services?: Prisma.ServiceUncheckedUpdateManyWithoutBusinessNestedInput
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutBusinessNestedInput
+  clientSessions?: Prisma.ClientSessionUncheckedUpdateManyWithoutBusinessNestedInput
 }
 
 export type BusinessCreateWithoutReservationsInput = {
@@ -808,6 +839,7 @@ export type BusinessCreateWithoutReservationsInput = {
   owner: Prisma.UserCreateNestedOneWithoutBusinessesInput
   services?: Prisma.ServiceCreateNestedManyWithoutBusinessInput
   availabilities?: Prisma.AvailabilityCreateNestedManyWithoutBusinessInput
+  clientSessions?: Prisma.ClientSessionCreateNestedManyWithoutBusinessInput
 }
 
 export type BusinessUncheckedCreateWithoutReservationsInput = {
@@ -824,6 +856,7 @@ export type BusinessUncheckedCreateWithoutReservationsInput = {
   updatedAt?: Date | string
   services?: Prisma.ServiceUncheckedCreateNestedManyWithoutBusinessInput
   availabilities?: Prisma.AvailabilityUncheckedCreateNestedManyWithoutBusinessInput
+  clientSessions?: Prisma.ClientSessionUncheckedCreateNestedManyWithoutBusinessInput
 }
 
 export type BusinessCreateOrConnectWithoutReservationsInput = {
@@ -856,6 +889,7 @@ export type BusinessUpdateWithoutReservationsInput = {
   owner?: Prisma.UserUpdateOneRequiredWithoutBusinessesNestedInput
   services?: Prisma.ServiceUpdateManyWithoutBusinessNestedInput
   availabilities?: Prisma.AvailabilityUpdateManyWithoutBusinessNestedInput
+  clientSessions?: Prisma.ClientSessionUpdateManyWithoutBusinessNestedInput
 }
 
 export type BusinessUncheckedUpdateWithoutReservationsInput = {
@@ -872,6 +906,91 @@ export type BusinessUncheckedUpdateWithoutReservationsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   services?: Prisma.ServiceUncheckedUpdateManyWithoutBusinessNestedInput
   availabilities?: Prisma.AvailabilityUncheckedUpdateManyWithoutBusinessNestedInput
+  clientSessions?: Prisma.ClientSessionUncheckedUpdateManyWithoutBusinessNestedInput
+}
+
+export type BusinessCreateWithoutClientSessionsInput = {
+  id?: string
+  name: string
+  description?: string | null
+  timezone?: string
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  coverUrl?: string | null
+  coverPublicId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  owner: Prisma.UserCreateNestedOneWithoutBusinessesInput
+  services?: Prisma.ServiceCreateNestedManyWithoutBusinessInput
+  availabilities?: Prisma.AvailabilityCreateNestedManyWithoutBusinessInput
+  reservations?: Prisma.ReservationCreateNestedManyWithoutBusinessInput
+}
+
+export type BusinessUncheckedCreateWithoutClientSessionsInput = {
+  id?: string
+  name: string
+  description?: string | null
+  timezone?: string
+  ownerId: string
+  avatarUrl?: string | null
+  avatarPublicId?: string | null
+  coverUrl?: string | null
+  coverPublicId?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  services?: Prisma.ServiceUncheckedCreateNestedManyWithoutBusinessInput
+  availabilities?: Prisma.AvailabilityUncheckedCreateNestedManyWithoutBusinessInput
+  reservations?: Prisma.ReservationUncheckedCreateNestedManyWithoutBusinessInput
+}
+
+export type BusinessCreateOrConnectWithoutClientSessionsInput = {
+  where: Prisma.BusinessWhereUniqueInput
+  create: Prisma.XOR<Prisma.BusinessCreateWithoutClientSessionsInput, Prisma.BusinessUncheckedCreateWithoutClientSessionsInput>
+}
+
+export type BusinessUpsertWithoutClientSessionsInput = {
+  update: Prisma.XOR<Prisma.BusinessUpdateWithoutClientSessionsInput, Prisma.BusinessUncheckedUpdateWithoutClientSessionsInput>
+  create: Prisma.XOR<Prisma.BusinessCreateWithoutClientSessionsInput, Prisma.BusinessUncheckedCreateWithoutClientSessionsInput>
+  where?: Prisma.BusinessWhereInput
+}
+
+export type BusinessUpdateToOneWithWhereWithoutClientSessionsInput = {
+  where?: Prisma.BusinessWhereInput
+  data: Prisma.XOR<Prisma.BusinessUpdateWithoutClientSessionsInput, Prisma.BusinessUncheckedUpdateWithoutClientSessionsInput>
+}
+
+export type BusinessUpdateWithoutClientSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  owner?: Prisma.UserUpdateOneRequiredWithoutBusinessesNestedInput
+  services?: Prisma.ServiceUpdateManyWithoutBusinessNestedInput
+  availabilities?: Prisma.AvailabilityUpdateManyWithoutBusinessNestedInput
+  reservations?: Prisma.ReservationUpdateManyWithoutBusinessNestedInput
+}
+
+export type BusinessUncheckedUpdateWithoutClientSessionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  timezone?: Prisma.StringFieldUpdateOperationsInput | string
+  ownerId?: Prisma.StringFieldUpdateOperationsInput | string
+  avatarUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  avatarPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  coverPublicId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  services?: Prisma.ServiceUncheckedUpdateManyWithoutBusinessNestedInput
+  availabilities?: Prisma.AvailabilityUncheckedUpdateManyWithoutBusinessNestedInput
+  reservations?: Prisma.ReservationUncheckedUpdateManyWithoutBusinessNestedInput
 }
 
 export type BusinessCreateManyOwnerInput = {
@@ -901,6 +1020,7 @@ export type BusinessUpdateWithoutOwnerInput = {
   services?: Prisma.ServiceUpdateManyWithoutBusinessNestedInput
   availabilities?: Prisma.AvailabilityUpdateManyWithoutBusinessNestedInput
   reservations?: Prisma.ReservationUpdateManyWithoutBusinessNestedInput
+  clientSessions?: Prisma.ClientSessionUpdateManyWithoutBusinessNestedInput
 }
 
 export type BusinessUncheckedUpdateWithoutOwnerInput = {
@@ -917,6 +1037,7 @@ export type BusinessUncheckedUpdateWithoutOwnerInput = {
   services?: Prisma.ServiceUncheckedUpdateManyWithoutBusinessNestedInput
   availabilities?: Prisma.AvailabilityUncheckedUpdateManyWithoutBusinessNestedInput
   reservations?: Prisma.ReservationUncheckedUpdateManyWithoutBusinessNestedInput
+  clientSessions?: Prisma.ClientSessionUncheckedUpdateManyWithoutBusinessNestedInput
 }
 
 export type BusinessUncheckedUpdateManyWithoutOwnerInput = {
@@ -941,12 +1062,14 @@ export type BusinessCountOutputType = {
   services: number
   availabilities: number
   reservations: number
+  clientSessions: number
 }
 
 export type BusinessCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   services?: boolean | BusinessCountOutputTypeCountServicesArgs
   availabilities?: boolean | BusinessCountOutputTypeCountAvailabilitiesArgs
   reservations?: boolean | BusinessCountOutputTypeCountReservationsArgs
+  clientSessions?: boolean | BusinessCountOutputTypeCountClientSessionsArgs
 }
 
 /**
@@ -980,6 +1103,13 @@ export type BusinessCountOutputTypeCountReservationsArgs<ExtArgs extends runtime
   where?: Prisma.ReservationWhereInput
 }
 
+/**
+ * BusinessCountOutputType without action
+ */
+export type BusinessCountOutputTypeCountClientSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ClientSessionWhereInput
+}
+
 
 export type BusinessSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -997,6 +1127,7 @@ export type BusinessSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   services?: boolean | Prisma.Business$servicesArgs<ExtArgs>
   availabilities?: boolean | Prisma.Business$availabilitiesArgs<ExtArgs>
   reservations?: boolean | Prisma.Business$reservationsArgs<ExtArgs>
+  clientSessions?: boolean | Prisma.Business$clientSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.BusinessCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["business"]>
 
@@ -1050,6 +1181,7 @@ export type BusinessInclude<ExtArgs extends runtime.Types.Extensions.InternalArg
   services?: boolean | Prisma.Business$servicesArgs<ExtArgs>
   availabilities?: boolean | Prisma.Business$availabilitiesArgs<ExtArgs>
   reservations?: boolean | Prisma.Business$reservationsArgs<ExtArgs>
+  clientSessions?: boolean | Prisma.Business$clientSessionsArgs<ExtArgs>
   _count?: boolean | Prisma.BusinessCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type BusinessIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1066,6 +1198,7 @@ export type $BusinessPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     services: Prisma.$ServicePayload<ExtArgs>[]
     availabilities: Prisma.$AvailabilityPayload<ExtArgs>[]
     reservations: Prisma.$ReservationPayload<ExtArgs>[]
+    clientSessions: Prisma.$ClientSessionPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1477,6 +1610,7 @@ export interface Prisma__BusinessClient<T, Null = never, ExtArgs extends runtime
   services<T extends Prisma.Business$servicesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Business$servicesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ServicePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   availabilities<T extends Prisma.Business$availabilitiesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Business$availabilitiesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AvailabilityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   reservations<T extends Prisma.Business$reservationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Business$reservationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ReservationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  clientSessions<T extends Prisma.Business$clientSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Business$clientSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ClientSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1987,6 +2121,30 @@ export type Business$reservationsArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   distinct?: Prisma.ReservationScalarFieldEnum | Prisma.ReservationScalarFieldEnum[]
+}
+
+/**
+ * Business.clientSessions
+ */
+export type Business$clientSessionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ClientSession
+   */
+  select?: Prisma.ClientSessionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the ClientSession
+   */
+  omit?: Prisma.ClientSessionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ClientSessionInclude<ExtArgs> | null
+  where?: Prisma.ClientSessionWhereInput
+  orderBy?: Prisma.ClientSessionOrderByWithRelationInput | Prisma.ClientSessionOrderByWithRelationInput[]
+  cursor?: Prisma.ClientSessionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ClientSessionScalarFieldEnum | Prisma.ClientSessionScalarFieldEnum[]
 }
 
 /**

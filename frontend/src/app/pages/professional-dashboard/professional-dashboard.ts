@@ -1,13 +1,25 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { RouterLink, Router } from '@angular/router';
+import {
+  Component,
+  OnInit,
+  computed,
+  signal
+} from '@angular/core';
+
+import {
+  Router,
+  RouterLink
+} from '@angular/router';
+
 import { forkJoin } from 'rxjs';
+
 import { ApiService } from '../../core/services/api.service';
+import { AuthService } from '../../core/services/auth.service';
+
 import { User } from '../../models/user.model';
 import { Business } from '../../models/business.model';
 import { Service } from '../../models/service.model';
 import { Availability } from '../../models/availability.model';
 import { Reservation } from '../../models/reservation.model';
-import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-professional-dashboard',
@@ -24,7 +36,12 @@ export class ProfessionalDashboard implements OnInit {
   reservations = signal<Reservation[]>([]);
 
   loading = signal(true);
+
+  completingReservationId =
+    signal<string | null>(null);
+
   errorMessage = signal('');
+  successMessage = signal('');
 
   constructor(
     private readonly api: ApiService,
@@ -35,7 +52,6 @@ export class ProfessionalDashboard implements OnInit {
   ngOnInit(): void {
     this.loadDashboard();
   }
-
 
   private loadDashboard(): void {
     const professional =
@@ -49,17 +65,13 @@ export class ProfessionalDashboard implements OnInit {
       return;
     }
 
-    this.professional.set(
-      professional
-    );
+    this.professional.set(professional);
 
-    // El endpoint /me obtiene el perfil asociado
-    // directamente al profesional autenticado.
+    // /businesses/me obtiene el perfil asociado
+    // directamente al usuario autenticado.
     this.api.getMyBusiness().subscribe({
       next: (business) => {
-        this.business.set(
-          business
-        );
+        this.business.set(business);
 
         this.loadBusinessData(
           business.id
@@ -86,15 +98,24 @@ export class ProfessionalDashboard implements OnInit {
     });
   }
 
-  private loadBusinessData(businessId: string): void {
+  private loadBusinessData(
+    businessId: string
+  ): void {
     forkJoin({
-      services: this.api.getServicesByBusiness(businessId),
+      services:
+        this.api.getServicesByBusiness(
+          businessId
+        ),
 
       availabilities:
-        this.api.getAvailabilitiesByBusiness(businessId),
+        this.api.getAvailabilitiesByBusiness(
+          businessId
+        ),
 
       reservations:
-        this.api.getReservationsByBusiness(businessId)
+        this.api.getReservationsByBusiness(
+          businessId
+        )
     }).subscribe({
       next: ({
         services,
@@ -107,15 +128,21 @@ export class ProfessionalDashboard implements OnInit {
           [...availabilities].sort(
             (a, b) =>
               a.dayOfWeek - b.dayOfWeek ||
-              a.startTime.localeCompare(b.startTime)
+              a.startTime.localeCompare(
+                b.startTime
+              )
           )
         );
 
         this.reservations.set(
           [...reservations].sort(
             (a, b) =>
-              new Date(a.startsAt).getTime() -
-              new Date(b.startsAt).getTime()
+              new Date(
+                a.startsAt
+              ).getTime() -
+              new Date(
+                b.startsAt
+              ).getTime()
           )
         );
 
@@ -134,6 +161,71 @@ export class ProfessionalDashboard implements OnInit {
     });
   }
 
+  completeReservation(
+    reservationId: string
+  ): void {
+    const notes = window.prompt(
+      'Puedes agregar una nota de atención (opcional):'
+    );
+
+    if (notes === null) {
+      return;
+    }
+
+    this.completingReservationId.set(
+      reservationId
+    );
+
+    this.errorMessage.set('');
+    this.successMessage.set('');
+
+    this.api
+      .completeReservation(
+        reservationId,
+        notes
+      )
+      .subscribe({
+        next: () => {
+          this.successMessage.set(
+            'Atención registrada correctamente.'
+          );
+
+          // Reflejamos COMPLETED localmente para retirar
+          // la reserva de las listas pendientes.
+          this.reservations.update(
+            (reservations) =>
+              reservations.map(
+                (reservation) =>
+                  reservation.id ===
+                    reservationId
+                    ? {
+                        ...reservation,
+                        status: 'COMPLETED'
+                      }
+                    : reservation
+              )
+          );
+
+          this.completingReservationId.set(
+            null
+          );
+        },
+
+        error: (error) => {
+          console.error(error);
+
+          this.errorMessage.set(
+            error?.error?.error ??
+              'No fue posible registrar la atención.'
+          );
+
+          this.completingReservationId.set(
+            null
+          );
+        }
+      });
+  }
+
   activeServicesCount(): number {
     return this.services().filter(
       (service) => service.isActive
@@ -147,55 +239,114 @@ export class ProfessionalDashboard implements OnInit {
     ).length;
   }
 
-  upcomingReservations(): Reservation[] {
+  upcomingReservations = computed(() => {
     const now = new Date();
 
-    return this.reservations().filter(
-      (reservation) =>
-        reservation.status !== 'CANCELLED' &&
-        new Date(reservation.startsAt) >= now
-    );
-  }
+    // Próximas reservas son las confirmadas
+    // cuya hora todavía no ha llegado.
+    return this.reservations()
+      .filter(
+        (reservation) =>
+          reservation.status ===
+            'CONFIRMED' &&
+          new Date(
+            reservation.startsAt
+          ) > now
+      )
+      .sort(
+        (a, b) =>
+          new Date(a.startsAt).getTime() -
+          new Date(b.startsAt).getTime()
+      );
+  });
+
+  pendingAttentionReservations =
+    computed(() => {
+      const now = new Date();
+
+      // Estas reservas ya ocurrieron pero continúan
+      // CONFIRMED, por lo que falta registrar la atención.
+      return this.reservations()
+        .filter(
+          (reservation) =>
+            reservation.status ===
+              'CONFIRMED' &&
+            new Date(
+              reservation.startsAt
+            ) <= now
+        )
+        .sort(
+          (a, b) =>
+            new Date(
+              b.startsAt
+            ).getTime() -
+            new Date(
+              a.startsAt
+            ).getTime()
+        );
+    });
 
   dayName(day: number): string {
-    const days: Record<number, string> = {
-      1: 'Lunes',
-      2: 'Martes',
-      3: 'Miércoles',
-      4: 'Jueves',
-      5: 'Viernes',
-      6: 'Sábado',
-      7: 'Domingo'
-    };
+    const days:
+      Record<number, string> = {
+        1: 'Lunes',
+        2: 'Martes',
+        3: 'Miércoles',
+        4: 'Jueves',
+        5: 'Viernes',
+        6: 'Sábado',
+        7: 'Domingo'
+      };
 
     return days[day] ?? 'Día';
   }
 
   formatDate(value: string): string {
-    const business = this.business();
+    const business =
+      this.business();
 
-    return new Intl.DateTimeFormat('es-CL', {
-      dateStyle: 'medium',
-      timeZone: business?.timezone
-    }).format(new Date(value));
+    return new Intl.DateTimeFormat(
+      'es-CL',
+      {
+        dateStyle: 'medium',
+        timeZone:
+          business?.timezone
+      }
+    ).format(
+      new Date(value)
+    );
   }
 
   formatTime(value: string): string {
-    const business = this.business();
+    const business =
+      this.business();
 
-    return new Intl.DateTimeFormat('es-CL', {
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false,
-      timeZone: business?.timezone
-    }).format(new Date(value));
+    return new Intl.DateTimeFormat(
+      'es-CL',
+      {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+        timeZone:
+          business?.timezone
+      }
+    ).format(
+      new Date(value)
+    );
   }
 
-  formatPrice(price: string | number): string {
-    return new Intl.NumberFormat('es-CL', {
-      style: 'currency',
-      currency: 'CLP',
-      maximumFractionDigits: 0
-    }).format(Number(price));
+  formatPrice(
+    price: string | number
+  ): string {
+    return new Intl.NumberFormat(
+      'es-CL',
+      {
+        style: 'currency',
+        currency: 'CLP',
+        maximumFractionDigits: 0
+      }
+    ).format(
+      Number(price)
+    );
   }
 }

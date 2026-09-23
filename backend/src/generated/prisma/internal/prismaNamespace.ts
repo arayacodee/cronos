@@ -401,7 +401,9 @@ export const ModelName = {
   Business: 'Business',
   Service: 'Service',
   Availability: 'Availability',
-  Reservation: 'Reservation'
+  Reservation: 'Reservation',
+  ClientSession: 'ClientSession',
+  SessionEvidence: 'SessionEvidence'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -417,7 +419,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "business" | "service" | "availability" | "reservation"
+    modelProps: "user" | "business" | "service" | "availability" | "reservation" | "clientSession" | "sessionEvidence"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -791,6 +793,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    ClientSession: {
+      payload: Prisma.$ClientSessionPayload<ExtArgs>
+      fields: Prisma.ClientSessionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ClientSessionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientSessionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ClientSessionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientSessionPayload>
+        }
+        findFirst: {
+          args: Prisma.ClientSessionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientSessionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ClientSessionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientSessionPayload>
+        }
+        findMany: {
+          args: Prisma.ClientSessionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientSessionPayload>[]
+        }
+        create: {
+          args: Prisma.ClientSessionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientSessionPayload>
+        }
+        createMany: {
+          args: Prisma.ClientSessionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ClientSessionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientSessionPayload>[]
+        }
+        delete: {
+          args: Prisma.ClientSessionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientSessionPayload>
+        }
+        update: {
+          args: Prisma.ClientSessionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientSessionPayload>
+        }
+        deleteMany: {
+          args: Prisma.ClientSessionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ClientSessionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ClientSessionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientSessionPayload>[]
+        }
+        upsert: {
+          args: Prisma.ClientSessionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ClientSessionPayload>
+        }
+        aggregate: {
+          args: Prisma.ClientSessionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateClientSession>
+        }
+        groupBy: {
+          args: Prisma.ClientSessionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClientSessionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ClientSessionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ClientSessionCountAggregateOutputType> | number
+        }
+      }
+    }
+    SessionEvidence: {
+      payload: Prisma.$SessionEvidencePayload<ExtArgs>
+      fields: Prisma.SessionEvidenceFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SessionEvidenceFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionEvidencePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SessionEvidenceFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionEvidencePayload>
+        }
+        findFirst: {
+          args: Prisma.SessionEvidenceFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionEvidencePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SessionEvidenceFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionEvidencePayload>
+        }
+        findMany: {
+          args: Prisma.SessionEvidenceFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionEvidencePayload>[]
+        }
+        create: {
+          args: Prisma.SessionEvidenceCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionEvidencePayload>
+        }
+        createMany: {
+          args: Prisma.SessionEvidenceCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SessionEvidenceCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionEvidencePayload>[]
+        }
+        delete: {
+          args: Prisma.SessionEvidenceDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionEvidencePayload>
+        }
+        update: {
+          args: Prisma.SessionEvidenceUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionEvidencePayload>
+        }
+        deleteMany: {
+          args: Prisma.SessionEvidenceDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SessionEvidenceUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SessionEvidenceUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionEvidencePayload>[]
+        }
+        upsert: {
+          args: Prisma.SessionEvidenceUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SessionEvidencePayload>
+        }
+        aggregate: {
+          args: Prisma.SessionEvidenceAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSessionEvidence>
+        }
+        groupBy: {
+          args: Prisma.SessionEvidenceGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SessionEvidenceGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SessionEvidenceCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SessionEvidenceCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -902,6 +1052,32 @@ export const ReservationScalarFieldEnum = {
 } as const
 
 export type ReservationScalarFieldEnum = (typeof ReservationScalarFieldEnum)[keyof typeof ReservationScalarFieldEnum]
+
+
+export const ClientSessionScalarFieldEnum = {
+  id: 'id',
+  businessId: 'businessId',
+  clientId: 'clientId',
+  reservationId: 'reservationId',
+  occurredAt: 'occurredAt',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ClientSessionScalarFieldEnum = (typeof ClientSessionScalarFieldEnum)[keyof typeof ClientSessionScalarFieldEnum]
+
+
+export const SessionEvidenceScalarFieldEnum = {
+  id: 'id',
+  sessionId: 'sessionId',
+  imageUrl: 'imageUrl',
+  imagePublicId: 'imagePublicId',
+  caption: 'caption',
+  createdAt: 'createdAt'
+} as const
+
+export type SessionEvidenceScalarFieldEnum = (typeof SessionEvidenceScalarFieldEnum)[keyof typeof SessionEvidenceScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1194,6 +1370,8 @@ export type GlobalOmitConfig = {
   service?: Prisma.ServiceOmit
   availability?: Prisma.AvailabilityOmit
   reservation?: Prisma.ReservationOmit
+  clientSession?: Prisma.ClientSessionOmit
+  sessionEvidence?: Prisma.SessionEvidenceOmit
 }
 
 /* Types for Logging */

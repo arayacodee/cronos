@@ -1,0 +1,150 @@
+.about-page {
+  width: min(calc(100% - 48px), var(--page-width));
+  margin: 0 auto;
+  padding: 96px 0 120px;
+}
+
+.about-hero {
+  max-width: 780px;
+  padding-bottom: 92px;
+}
+
+.eyebrow,
+.card-number {
+  color: var(--text-tertiary);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.eyebrow {
+  margin: 0 0 16px;
+}
+
+.about-hero h1 {
+  margin: 0;
+  font-size: clamp(48px, 8vw, 92px);
+  letter-spacing: -0.06em;
+  line-height: 0.98;
+}
+
+.about-hero > p:last-child {
+  max-width: 640px;
+  margin: 28px 0 0;
+  color: var(--text-secondary);
+  font-size: 20px;
+  line-height: 1.55;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 18px;
+}
+
+.about-card {
+  min-height: 330px;
+  padding: 34px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-large);
+  background: var(--surface);
+  box-shadow: var(--shadow-small);
+}
+
+.about-card-main {
+  background: var(--text-primary);
+  color: white;
+}
+
+.about-card-main .card-number {
+  color: #a1a1a6;
+}
+
+.about-card h2 {
+  max-width: 440px;
+  margin: 74px 0 18px;
+  font-size: clamp(30px, 4vw, 48px);
+  letter-spacing: -0.05em;
+  line-height: 1.02;
+}
+
+.about-card p {
+  max-width: 470px;
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.about-card-main p {
+  color: #c1c1c6;
+}
+
+.about-section,
+.contact-section {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(280px, 0.7fr);
+  gap: 64px;
+  margin-top: 100px;
+  padding-top: 42px;
+  border-top: 1px solid var(--border);
+}
+
+.about-section h2,
+.contact-section h2 {
+  max-width: 440px;
+  margin: 0;
+  font-size: clamp(30px, 4vw, 48px);
+  letter-spacing: -0.05em;
+  line-height: 1.04;
+}
+
+.about-section > p,
+.contact-section > p {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.contact-section a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.contact-section a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 720px) {
+  .about-page {
+    width: calc(100% - 32px);
+    padding: 64px 0 80px;
+  }
+
+  .about-hero {
+    padding-bottom: 64px;
+  }
+
+  .about-grid,
+  .about-section,
+  .contact-section {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .about-card {
+    min-height: 0;
+    padding: 26px;
+  }
+
+  .about-card h2 {
+    margin-top: 56px;
+  }
+
+  .about-section,
+  .contact-section {
+    margin-top: 70px;
+    padding-top: 32px;
+  }
+}

@@ -1,127 +1,226 @@
-<main class="booking">
-  <a
-    class="back-link"
-    [routerLink]="
-      business()
-        ? ['/business', business()!.id]
-        : ['/']
-    "
-  >
-    ← Volver
-  </a>
+<main class="booking-page" aria-labelledby="booking-title">
+  <div class="booking-topbar">
+    <a
+      class="back-link"
+      [routerLink]="business() ? ['/business', business()!.id] : ['/']"
+    >
+      <span aria-hidden="true">←</span>
+      Volver al perfil
+    </a>
+    <span class="booking-security">
+      <span aria-hidden="true">✓</span>
+      Reserva segura
+    </span>
+  </div>
 
   @if (loading()) {
-    <p>Cargando reserva...</p>
+    <div class="status-panel" role="status" aria-live="polite">
+      <span class="status-dot" aria-hidden="true"></span>
+      Cargando los detalles del servicio...
+    </div>
+  }
+
+  @if (errorMessage() && !service()) {
+    <div class="message error" role="alert">
+      {{ errorMessage() }}
+    </div>
   }
 
   @if (!loading() && service(); as currentService) {
-    <div class="booking-layout">
-      <section class="booking-main">
-        <p class="eyebrow">RESERVAR</p>
+    <section class="booking-shell">
+      <div class="booking-content">
+        <header class="booking-heading">
+          <span class="service-mark" aria-hidden="true">∞</span>
+          <div>
+            <p class="eyebrow">RESERVAR SERVICIO</p>
+            <h1 id="booking-title">{{ currentService.name }}</h1>
 
-        <h1>{{ currentService.name }}</h1>
+            @if (business(); as currentBusiness) {
+              <p class="business-name">
+                En {{ currentBusiness.name }}
+              </p>
+            }
+          </div>
+        </header>
 
-        @if (business(); as currentBusiness) {
-          <p class="business-name">
-            {{ currentBusiness.name }}
-          </p>
+        @if (currentService.description) {
+          <p class="service-description">{{ currentService.description }}</p>
         }
 
-        <div class="service-summary">
-          <span>
-            {{ currentService.durationMin }} minutos
-          </span>
-
-          <strong>
-            {{ formatPrice(currentService.price) }}
-          </strong>
+        <div class="service-summary" aria-label="Detalles del servicio">
+          <div>
+            <span>Duración</span>
+            <strong>{{ currentService.durationMin }} minutos</strong>
+          </div>
+          <div>
+            <span>Valor</span>
+            <strong>{{ formatPrice(currentService.price) }}</strong>
+          </div>
         </div>
 
-        <section class="step">
-          <h2>1. Selecciona una fecha</h2>
+        <div class="booking-steps">
+          <section class="step-card" aria-labelledby="date-step-title">
+            <div class="step-heading">
+              <span class="step-number">1</span>
+              <div>
+                <p class="step-kicker">PRIMER PASO</p>
+                <h2 id="date-step-title">Elige una fecha</h2>
+                <p>Selecciona el día que más te acomode.</p>
+              </div>
+            </div>
 
-          <input
-            type="date"
-            [min]="minDate"
-            [value]="selectedDate()"
-            (change)="onDateChange($event)"
-          />
-        </section>
+            <div class="date-field">
+              <label for="booking-date">Fecha de la reserva</label>
+              <input
+                id="booking-date"
+                type="date"
+                [min]="minDate"
+                [value]="selectedDate()"
+                (change)="onDateChange($event)"
+              />
+            </div>
+          </section>
 
-        @if (selectedDate()) {
-          <section class="step">
-            <h2>2. Selecciona una hora</h2>
-
-            @if (loadingSlots()) {
-              <p>
-                Consultando horarios disponibles...
-              </p>
-            } @else {
-
-              @if (availableTimes().length === 0) {
-                <p>
-                  No hay horarios disponibles para esta fecha.
-                </p>
-              }
-
-              <div class="time-grid">
-                @for (
-                  time of availableTimes();
-                  track time
-                ) {
-                  <button
-                    type="button"
-                    class="time-button"
-                    [class.selected]="
-                      selectedTime() === time
-                    "
-                    (click)="selectTime(time)"
-                  >
-                    {{ time }}
-                  </button>
-                }
+          @if (selectedDate()) {
+            <section class="step-card" aria-labelledby="time-step-title">
+              <div class="step-heading">
+                <span class="step-number">2</span>
+                <div>
+                  <p class="step-kicker">SEGUNDO PASO</p>
+                  <h2 id="time-step-title">Elige un horario</h2>
+                  <p>Solo mostramos horas que siguen disponibles.</p>
+                </div>
               </div>
 
-            }
-          </section>
-}
-        @if (selectedTime()) {
-          <section class="step confirmation">
-            <h2>3. Confirmar</h2>
-
-            <p>
-              {{ selectedDate() }}
-              a las
-              <strong>{{ selectedTime() }}</strong>
-            </p>
-
-            <button
-              type="button"
-              class="confirm-button"
-              [disabled]="submitting()"
-              (click)="confirmReservation()"
-            >
-              @if (submitting()) {
-                Confirmando...
+              @if (loadingSlots()) {
+                <div class="slot-status" role="status" aria-live="polite">
+                  <span class="status-dot" aria-hidden="true"></span>
+                  Buscando horarios disponibles...
+                </div>
               } @else {
-                Confirmar reserva
-              }
-            </button>
-          </section>
-        }
+                @if (availableTimes().length === 0) {
+                  <div class="empty-slots">
+                    <strong>No hay horarios disponibles este día.</strong>
+                    <p>Prueba con otra fecha para encontrar una hora.</p>
+                  </div>
+                }
 
-        @if (errorMessage()) {
-          <p class="message error">
+                <div class="time-grid" aria-label="Horarios disponibles">
+                  @for (time of availableTimes(); track time) {
+                    <button
+                      type="button"
+                      class="time-button"
+                      [class.selected]="selectedTime() === time"
+                      [attr.aria-pressed]="selectedTime() === time"
+                      (click)="selectTime(time)"
+                    >
+                      {{ time }}
+                    </button>
+                  }
+                </div>
+              }
+            </section>
+          }
+
+          @if (selectedTime()) {
+            <section class="step-card confirmation-card" aria-labelledby="confirmation-step-title">
+              <div class="step-heading">
+                <span class="step-number complete">✓</span>
+                <div>
+                  <p class="step-kicker">ÚLTIMO PASO</p>
+                  <h2 id="confirmation-step-title">Confirma tu reserva</h2>
+                  <p>Revisa los datos antes de continuar.</p>
+                </div>
+              </div>
+
+              <div class="selected-appointment">
+                <span class="appointment-icon" aria-hidden="true">◷</span>
+                <div>
+                  <span>Horario seleccionado</span>
+                  <strong>{{ selectedDate() }} · {{ selectedTime() }}</strong>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                class="confirm-button"
+                [disabled]="submitting()"
+                (click)="confirmReservation()"
+              >
+                @if (submitting()) {
+                  Confirmando reserva...
+                } @else {
+                  Confirmar reserva
+                  <span aria-hidden="true">→</span>
+                }
+              </button>
+            </section>
+          }
+        </div>
+
+        @if (errorMessage() && service()) {
+          <p class="message error" role="alert">
             {{ errorMessage() }}
           </p>
         }
 
         @if (successMessage()) {
-          <p class="message success">
+          <p class="message success" role="status" aria-live="polite">
+            <span class="message-icon" aria-hidden="true">✓</span>
             {{ successMessage() }}
           </p>
         }
-      </section>
-    </div>
+      </div>
+
+      <aside class="booking-aside" aria-label="Resumen de la reserva">
+        <div class="aside-card">
+          <p class="aside-kicker">TU RESERVA</p>
+
+          @if (business(); as currentBusiness) {
+            <div class="aside-business">
+              <div class="aside-avatar">
+                @if (currentBusiness.avatarUrl) {
+                  <img
+                    [src]="currentBusiness.avatarUrl"
+                    [alt]="'Foto de ' + currentBusiness.name"
+                  />
+                } @else {
+                  <span aria-hidden="true">{{ currentBusiness.name.charAt(0) }}</span>
+                }
+              </div>
+              <div>
+                <strong>{{ currentBusiness.name }}</strong>
+                <span>Servicio profesional</span>
+              </div>
+            </div>
+          }
+
+          <div class="aside-service">
+            <span>Servicio</span>
+            <strong>{{ currentService.name }}</strong>
+          </div>
+
+          <div class="aside-detail">
+            <span>Fecha</span>
+            <strong>{{ selectedDate() || 'Aún no seleccionada' }}</strong>
+          </div>
+
+          <div class="aside-detail">
+            <span>Horario</span>
+            <strong>{{ selectedTime() || 'Aún no seleccionado' }}</strong>
+          </div>
+
+          <div class="aside-total">
+            <span>Total</span>
+            <strong>{{ formatPrice(currentService.price) }}</strong>
+          </div>
+        </div>
+
+        <p class="booking-help">
+          ¿Necesitas cambiar tu elección? Puedes volver a seleccionar la fecha
+          o el horario antes de confirmar.
+        </p>
+      </aside>
+    </section>
   }
 </main>

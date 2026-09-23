@@ -5,6 +5,7 @@ import {
   getReservations,
   getReservationById,
   cancelReservation,
+  completeReservation,
 } from "../controllers/reservation.controller.js";
 
 import {
@@ -35,6 +36,14 @@ router.post(
 router.patch(
   "/:id/cancel",
   cancelReservation
+);
+
+// Una atención completada solo puede ser registrada
+// por el profesional propietario del negocio.
+router.patch(
+  "/:id/complete",
+  requireRole("PROFESSIONAL"),
+  completeReservation
 );
 
 export default router;

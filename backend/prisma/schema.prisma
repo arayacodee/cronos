@@ -15,6 +15,7 @@ enum UserRole {
 enum ReservationStatus {
   PENDING
   CONFIRMED
+  COMPLETED
   CANCELLED
 }
 
@@ -27,6 +28,7 @@ model User {
 
   businesses   Business[]
   reservations Reservation[]
+  clientSessions ClientSession[]
 
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
@@ -48,6 +50,7 @@ model Business {
   services       Service[]
   availabilities Availability[]
   reservations   Reservation[]
+  clientSessions ClientSession[]
 
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @updatedAt
@@ -98,9 +101,55 @@ model Reservation {
   service     Service           @relation(fields: [serviceId], references: [id])
   client      User              @relation(fields: [clientId], references: [id])
 
+  clientSession ClientSession?
+
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
 
   @@index([businessId, startsAt])
   @@index([clientId])
+}
+
+model ClientSession {
+  id String @id @default(uuid())
+
+  businessId    String
+  clientId      String
+  reservationId String @unique
+
+  occurredAt DateTime
+  notes      String?
+
+  // Cada atención pertenece a un negocio, un cliente y una reserva concreta.
+  // reservationId es único para impedir dos historiales para la misma reserva.
+  business    Business    @relation(fields: [businessId], references: [id])
+  client      User        @relation(fields: [clientId], references: [id])
+  reservation Reservation @relation(fields: [reservationId], references: [id])
+
+  evidences SessionEvidence[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([businessId, clientId])
+  @@index([occurredAt])
+}
+
+model SessionEvidence {
+  id String @id @default(uuid())
+
+  sessionId String
+
+  imageUrl      String
+  imagePublicId String
+
+  caption String?
+
+  // Las evidencias pertenecen a una atención concreta.
+  // Si la sesión se elimina, sus evidencias también se eliminan.
+  session ClientSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@index([sessionId])
 }
