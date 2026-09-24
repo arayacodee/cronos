@@ -13,13 +13,13 @@ import {
 
 import {
   User,
-  UserRole,
   AuthResponse
 } from '../../models/user.model';
 
 import {
   CreateReservationRequest,
-  Reservation
+  Reservation,
+  CompleteReservationResponse
 } from '../../models/reservation.model';
 
 
@@ -73,7 +73,19 @@ export class ApiService {
   }
 
 
+  completeReservation(
+    reservationId: string,
+    notes?: string
+  ): Observable<CompleteReservationResponse> {
+    // El backend valida que la reserva pertenezca al negocio del profesional autenticado.
 
+    return this.http.patch<CompleteReservationResponse>(
+      `${this.baseUrl}/api/reservations/${reservationId}/complete`,
+      {
+        notes: notes?.trim() || undefined
+      }
+    );
+  }
   updateService(
     id: string,
     data: UpdateServiceRequest
@@ -216,15 +228,13 @@ export class ApiService {
 
 
 
-    googleLogin(
-    credential: string,
-    role: UserRole
+  googleLogin(
+    credential: string
   ): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(
       `${this.baseUrl}/api/auth/google`,
       {
-        credential,
-        role
+        credential
       }
     );
   }

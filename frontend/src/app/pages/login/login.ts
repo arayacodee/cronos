@@ -6,31 +6,21 @@ import {
 
 import {
   ActivatedRoute,
-  Router,
-  RouterLink
+  Router
 } from '@angular/router';
 
 import { AuthService } from '../../core/services/auth.service';
 
-import {
-  User,
-  UserRole
-} from '../../models/user.model';
+import { User } from '../../models/user.model';
 
 import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-login',
-  imports: [
-    RouterLink
-  ],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })
 export class Login implements OnInit {
-  selectedRole =
-    signal<UserRole | null>(null);
-
   loading = signal(false);
   errorMessage = signal('');
 
@@ -51,16 +41,10 @@ export class Login implements OnInit {
 
     if (this.auth.isLoggedIn()) {
       this.redirectCurrentUser();
+      return;
     }
-  }
 
-  selectRole(role: UserRole): void {
-    this.selectedRole.set(role);
-    this.errorMessage.set('');
-
-    setTimeout(() => {
-      this.renderGoogleButton();
-    });
+    this.renderGoogleButton();
   }
 
   private renderGoogleButton(
@@ -129,28 +113,21 @@ export class Login implements OnInit {
         locale: 'es'
       }
     );
+
+    // Al llegar desde "Ingresar" intentamos abrir Google de inmediato.
+    // El botón oficial queda disponible si One Tap no aparece en el navegador.
+    google.accounts.id.prompt();
   }
 
   private handleGoogleCredential(
     response: GoogleCredentialResponse
   ): void {
-    const role = this.selectedRole();
-
-    if (!role) {
-      this.errorMessage.set(
-        'Selecciona primero el tipo de cuenta.'
-      );
-
-      return;
-    }
-
     this.loading.set(true);
     this.errorMessage.set('');
 
     this.auth
       .loginWithGoogle(
-        response.credential,
-        role
+        response.credential
       )
       .subscribe({
         next: (user) => {

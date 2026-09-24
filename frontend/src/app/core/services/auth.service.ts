@@ -15,8 +15,7 @@ import {
 import { ApiService } from './api.service';
 
 import {
-  User,
-  UserRole
+  User
 } from '../../models/user.model';
 
 @Injectable({
@@ -65,11 +64,10 @@ export class AuthService {
   }
 
   loginWithGoogle(
-    credential: string,
-    role: UserRole
+    credential: string
   ): Observable<User> {
     return this.api
-      .googleLogin(credential, role)
+      .googleLogin(credential)
       .pipe(
         tap((response) => {
           this.currentUserSignal.set(

@@ -20,12 +20,7 @@ const googleClient = new OAuth2Client(
 );
 
 const googleLoginSchema = z.object({
-  credential: z.string().min(1),
-
-  role: z.enum([
-    "CLIENT",
-    "PROFESSIONAL"
-  ])
+  credential: z.string().min(1)
 });
 
 const cookieOptions = {
@@ -50,19 +45,7 @@ export const googleLogin = async (
       });
     }
 
-    const {
-      credential,
-      role
-    } = parsed.data;
-
-    console.log(
-    "Google login received:",
-    {
-        role,
-        hasCredential: Boolean(credential),
-        clientConfigured: Boolean(env.GOOGLE_CLIENT_ID)
-    }
-    );    
+    const { credential } = parsed.data;
 
     const ticket =
       await googleClient.verifyIdToken({
@@ -83,7 +66,7 @@ export const googleLogin = async (
     }
 
     const googleId = payload.sub;
-    const email = payload.email;
+    const email = payload.email.trim().toLowerCase();
     const name = payload.name ?? null;
 
     let user =
@@ -94,10 +77,15 @@ export const googleLogin = async (
       });
 
     if (!user) {
+      // Las cuentas profesionales prehabilitadas se reconocen por el correo
+      // registrado por administración, sin confiar en un rol del cliente.
       const existingByEmail =
-        await prisma.user.findUnique({
+        await prisma.user.findFirst({
           where: {
-            email
+            email: {
+              equals: email,
+              mode: "insensitive"
+            }
           }
         });
 
@@ -130,7 +118,7 @@ export const googleLogin = async (
             googleId,
             email,
             name,
-            role
+            role: "CLIENT"
           }
         });
       }
@@ -148,21 +136,21 @@ export const googleLogin = async (
     return res.status(200).json({
       user
     });
-    } catch (error) {
+  } catch (error) {
     const message =
-        error instanceof Error
+      error instanceof Error
         ? error.message
         : String(error);
 
     console.error(
-        "Google authentication failed:",
-        message
+      "Google authentication failed:",
+      message
     );
 
     return res.status(401).json({
-        error: "Google authentication failed"
+      error: "Google authentication failed"
     });
-    }
+  }
 };
 
 export const getCurrentUser = async (

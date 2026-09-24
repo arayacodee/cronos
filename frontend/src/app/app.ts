@@ -17,6 +17,8 @@ import { AuthService } from './core/services/auth.service';
   styleUrl: './app.css'
 })
 export class App {
+  readonly currentYear = new Date().getFullYear();
+
   constructor(
     public readonly auth: AuthService,
     private readonly router: Router

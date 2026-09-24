@@ -1,95 +1,35 @@
 <main class="login-page">
+  <section class="login-card" aria-labelledby="login-title">
 
-  <a
-    routerLink="/"
-    class="brand"
-  >
-    Cronos
-  </a>
+    <h1 id="login-title">Ingresa a Cronos</h1>
 
-  <section class="login-card">
-
-    <p class="eyebrow">
-      BIENVENIDO
+    <p class="login-description">
+      Continúa con Google para comenzar a reservar.
     </p>
 
-    <h1>
-      Ingresa a Cronos
-    </h1>
-
-    <p>
-      Primero selecciona cómo utilizarás
-      la plataforma.
-    </p>
-
-    <div class="role-selection">
-
-      <button
-        type="button"
-        class="role-card"
-        [class.selected]="
-          selectedRole() === 'CLIENT'
-        "
-        (click)="selectRole('CLIENT')"
-      >
-        <strong>
-          Soy cliente
-        </strong>
-
-        <span>
-          Quiero buscar servicios y reservar horas.
-        </span>
-      </button>
-
-      <button
-        type="button"
-        class="role-card"
-        [class.selected]="
-          selectedRole() === 'PROFESSIONAL'
-        "
-        (click)="
-          selectRole('PROFESSIONAL')
-        "
-      >
-        <strong>
-          Soy profesional
-        </strong>
-
-        <span>
-          Quiero ofrecer servicios y gestionar
-          mis reservas.
-        </span>
-      </button>
-
+    <div class="google-section">
+      <p class="google-label">Continúa con tu cuenta Google</p>
+      <div
+        id="google-signin-button"
+        role="group"
+        aria-label="Autenticación con Google"
+      ></div>
     </div>
 
-    @if (selectedRole()) {
-
-      <div class="google-section">
-
-        <p>
-          Continúa con tu cuenta Google
-        </p>
-
-        <div
-          id="google-signin-button"
-        ></div>
-
-      </div>
-
-    }
-
     @if (loading()) {
-      <p class="loading">
-        Iniciando sesión...
+      <p class="loading" role="status" aria-live="polite">
+        Verificando tu cuenta e iniciando sesión...
       </p>
     }
 
     @if (errorMessage()) {
-      <p class="error">
+      <p class="error" role="alert">
         {{ errorMessage() }}
       </p>
     }
 
+    <p class="account-note">
+      El acceso profesional está disponible para cuentas habilitadas por Cronos.
+    </p>
   </section>
 </main>

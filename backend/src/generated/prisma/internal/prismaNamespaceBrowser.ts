@@ -55,7 +55,9 @@ export const ModelName = {
   Business: 'Business',
   Service: 'Service',
   Availability: 'Availability',
-  Reservation: 'Reservation'
+  Reservation: 'Reservation',
+  ClientSession: 'ClientSession',
+  SessionEvidence: 'SessionEvidence'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -146,6 +148,32 @@ export const ReservationScalarFieldEnum = {
 } as const
 
 export type ReservationScalarFieldEnum = (typeof ReservationScalarFieldEnum)[keyof typeof ReservationScalarFieldEnum]
+
+
+export const ClientSessionScalarFieldEnum = {
+  id: 'id',
+  businessId: 'businessId',
+  clientId: 'clientId',
+  reservationId: 'reservationId',
+  occurredAt: 'occurredAt',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ClientSessionScalarFieldEnum = (typeof ClientSessionScalarFieldEnum)[keyof typeof ClientSessionScalarFieldEnum]
+
+
+export const SessionEvidenceScalarFieldEnum = {
+  id: 'id',
+  sessionId: 'sessionId',
+  imageUrl: 'imageUrl',
+  imagePublicId: 'imagePublicId',
+  caption: 'caption',
+  createdAt: 'createdAt'
+} as const
+
+export type SessionEvidenceScalarFieldEnum = (typeof SessionEvidenceScalarFieldEnum)[keyof typeof SessionEvidenceScalarFieldEnum]
 
 
 export const SortOrder = {

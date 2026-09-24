@@ -8,7 +8,6 @@ import { FormsModule } from '@angular/forms';
 
 import {
   Router,
-  RouterLink
 } from '@angular/router';
 
 import { ApiService } from '../../core/services/api.service';
@@ -17,8 +16,7 @@ import { AuthService } from '../../core/services/auth.service';
 @Component({
   selector: 'app-professional-onboarding',
   imports: [
-    FormsModule,
-    RouterLink
+    FormsModule
   ],
   templateUrl: './professional-onboarding.html',
   styleUrl: './professional-onboarding.css'

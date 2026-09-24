@@ -42,3 +42,13 @@ export type Availability = Prisma.AvailabilityModel
  * 
  */
 export type Reservation = Prisma.ReservationModel
+/**
+ * Model ClientSession
+ * 
+ */
+export type ClientSession = Prisma.ClientSessionModel
+/**
+ * Model SessionEvidence
+ * 
+ */
+export type SessionEvidence = Prisma.SessionEvidenceModel

@@ -131,3 +131,8 @@ header h1 {
     flex-direction: column;
   }
 }
+
+.status.completed {
+  background: #edf8ef;
+  color: #176c2b;
+}

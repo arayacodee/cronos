@@ -5,6 +5,7 @@ import { User } from './user.model';
 export type ReservationStatus =
   | 'PENDING'
   | 'CONFIRMED'
+  | 'COMPLETED'
   | 'CANCELLED';
 
 export interface Reservation {
@@ -28,4 +29,20 @@ export interface Reservation {
 export interface CreateReservationRequest {
   serviceId: string;
   startsAt: string;
+}
+
+export interface ClientSession {
+  id: string;
+  businessId: string;
+  clientId: string;
+  reservationId: string;
+  occurredAt: string;
+  notes: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CompleteReservationResponse {
+  reservation: Reservation;
+  session: ClientSession;
 }
