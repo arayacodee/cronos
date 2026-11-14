@@ -47,6 +47,7 @@ model User {
   pendingVerificationSid String?
   phoneVerificationSentAt DateTime?
   professionalApplication ProfessionalApplication?
+  subscriptions ProfessionalSubscription[]
 
   businesses   Business[]
   reservations Reservation[]
@@ -67,6 +68,32 @@ model ProfessionalApplication {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+model ProfessionalSubscription {
+  id String @id @default(uuid())
+  userId String
+  activeKey String? @unique
+  providerId String? @unique
+  status String @default("creating")
+  checkoutUrl String?
+  businessName String
+  category BusinessCategory
+  description String?
+  paidUntil DateTime?
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  payments SubscriptionPayment[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  @@index([userId])
+}
+
+model SubscriptionPayment {
+  id String @id
+  subscriptionId String
+  status String
+  paidUntil DateTime?
+  subscription ProfessionalSubscription @relation(fields: [subscriptionId], references: [id], onDelete: Cascade)
 }
 
 model Business {

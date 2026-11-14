@@ -15,6 +15,7 @@ import { ProfessionalOnboarding } from './pages/professional-onboarding/professi
 export const routes: Routes = [
   { path: 'account/profile', loadComponent: () => import('./pages/account-profile/account-profile').then(module => module.AccountProfile), canActivate: [accountGuard] },
   { path: 'companies', loadComponent: () => import('./pages/companies/companies').then(module => module.Companies) },
+  { path: 'subscriptions', loadComponent: () => import('./pages/subscriptions/subscriptions').then(module => module.Subscriptions), canActivate: [accountGuard] },
   { path: 'admin/login', loadComponent: () => import('./pages/admin-login/admin-login').then(module => module.AdminLogin) },
   { path: 'admin', loadComponent: () => import('./pages/admin/admin').then(module => module.Admin), canActivate: [superadminGuard] },
   { path: 'dashboard/history', loadComponent: () => import('./pages/professional-history/professional-history').then(module => module.ProfessionalHistory), canActivate: [professionalGuard] },

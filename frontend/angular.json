@@ -53,6 +53,10 @@
         },
         "serve": {
           "builder": "@angular/build:dev-server",
+          "options": {
+            "allowedHosts": ["votes-context-arcade-controlled.trycloudflare.com"],
+            "proxyConfig": "proxy.conf.json"
+          },
           "configurations": {
             "production": {
               "buildTarget": "cronos-frontend:build:production"

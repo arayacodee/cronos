@@ -53,6 +53,8 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   ProfessionalApplication: 'ProfessionalApplication',
+  ProfessionalSubscription: 'ProfessionalSubscription',
+  SubscriptionPayment: 'SubscriptionPayment',
   Business: 'Business',
   BusinessPhoto: 'BusinessPhoto',
   Service: 'Service',
@@ -112,6 +114,34 @@ export const ProfessionalApplicationScalarFieldEnum = {
 } as const
 
 export type ProfessionalApplicationScalarFieldEnum = (typeof ProfessionalApplicationScalarFieldEnum)[keyof typeof ProfessionalApplicationScalarFieldEnum]
+
+
+export const ProfessionalSubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  activeKey: 'activeKey',
+  providerId: 'providerId',
+  status: 'status',
+  checkoutUrl: 'checkoutUrl',
+  businessName: 'businessName',
+  category: 'category',
+  description: 'description',
+  paidUntil: 'paidUntil',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProfessionalSubscriptionScalarFieldEnum = (typeof ProfessionalSubscriptionScalarFieldEnum)[keyof typeof ProfessionalSubscriptionScalarFieldEnum]
+
+
+export const SubscriptionPaymentScalarFieldEnum = {
+  id: 'id',
+  subscriptionId: 'subscriptionId',
+  status: 'status',
+  paidUntil: 'paidUntil'
+} as const
+
+export type SubscriptionPaymentScalarFieldEnum = (typeof SubscriptionPaymentScalarFieldEnum)[keyof typeof SubscriptionPaymentScalarFieldEnum]
 
 
 export const BusinessScalarFieldEnum = {

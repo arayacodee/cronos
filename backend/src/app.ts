@@ -1,6 +1,7 @@
 import express from "express";
 import adminRoutes from "./routes/admin.routes.js";
 import accountRoutes from './routes/account.routes.js';
+import subscriptionRoutes from './routes/subscription.routes.js';
 import type { ErrorRequestHandler } from "express";
 import sessionRoutes from "./routes/session.routes.js";
 import cors from "cors";
@@ -59,6 +60,7 @@ app.get("/health", async (_req, res) => {
 app.use("/api/businesses", businessRoutes);
 app.use("/api/admin", adminRoutes);
 app.use('/api/account', accountRoutes);
+app.use('/api/subscriptions', subscriptionRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/availabilities", availabilityRoutes);
 app.use("/api/reservations", reservationRoutes);

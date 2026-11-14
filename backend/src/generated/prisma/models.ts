@@ -10,6 +10,8 @@
  */
 export type * from './models/User.js'
 export type * from './models/ProfessionalApplication.js'
+export type * from './models/ProfessionalSubscription.js'
+export type * from './models/SubscriptionPayment.js'
 export type * from './models/Business.js'
 export type * from './models/BusinessPhoto.js'
 export type * from './models/Service.js'

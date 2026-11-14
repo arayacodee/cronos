@@ -1,6 +1,7 @@
 import {
   Injectable,
   computed,
+  effect,
   signal
 } from '@angular/core';
 
@@ -22,6 +23,14 @@ import {
   providedIn: 'root'
 })
 export class AuthService {
+  private readonly companyApplicantId = signal<string | null>(null);
+  readonly managesCompany = computed(() => {
+    const user = this.currentUserSignal();
+    return Boolean(user && user.role !== 'SUPERADMIN' && (user.role === 'PROFESSIONAL' || this.companyApplicantId() === user.id));
+  });
+  markCompanyApplication(): void {
+    this.companyApplicantId.set(this.currentUserSignal()?.id ?? null);
+  }
   activateProfessionalDemo(): Observable<User> { return this.api.activateProfessionalDemo().pipe(tap(r => this.currentUserSignal.set(r.user)), map(r => r.user)); }
   login(email: string, password: string): Observable<User> { return this.api.passwordLogin(email, password).pipe(tap(r => this.currentUserSignal.set(r.user)), map(r => r.user)); }
   register(data: { email: string; password: string; firstName: string; lastName: string; phone: string; address: string }): Observable<User> { return this.api.register(data).pipe(tap(r => this.currentUserSignal.set(r.user)), map(r => r.user)); }
@@ -59,7 +68,17 @@ export class AuthService {
 
   constructor(
     private readonly api: ApiService
-  ) {}
+  ) {
+    effect(onCleanup => {
+      const user = this.currentUserSignal();
+      if (!user || user.role !== 'CLIENT') { this.companyApplicantId.set(null); return; }
+      const request = this.api.professionalApplication().subscribe({
+        next: response => this.companyApplicantId.set(response.application ? user.id : null),
+        error: () => this.companyApplicantId.set(null),
+      });
+      onCleanup(() => request.unsubscribe());
+    });
+  }
 
   async initialize(): Promise<void> {
     try {

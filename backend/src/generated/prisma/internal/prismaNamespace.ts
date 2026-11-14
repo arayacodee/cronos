@@ -399,6 +399,8 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   ProfessionalApplication: 'ProfessionalApplication',
+  ProfessionalSubscription: 'ProfessionalSubscription',
+  SubscriptionPayment: 'SubscriptionPayment',
   Business: 'Business',
   BusinessPhoto: 'BusinessPhoto',
   Service: 'Service',
@@ -421,7 +423,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "professionalApplication" | "business" | "businessPhoto" | "service" | "availability" | "reservation" | "clientSession" | "sessionEvidence"
+    modelProps: "user" | "professionalApplication" | "professionalSubscription" | "subscriptionPayment" | "business" | "businessPhoto" | "service" | "availability" | "reservation" | "clientSession" | "sessionEvidence"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -570,6 +572,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ProfessionalApplicationCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ProfessionalApplicationCountAggregateOutputType> | number
+        }
+      }
+    }
+    ProfessionalSubscription: {
+      payload: Prisma.$ProfessionalSubscriptionPayload<ExtArgs>
+      fields: Prisma.ProfessionalSubscriptionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.ProfessionalSubscriptionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionalSubscriptionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.ProfessionalSubscriptionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionalSubscriptionPayload>
+        }
+        findFirst: {
+          args: Prisma.ProfessionalSubscriptionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionalSubscriptionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.ProfessionalSubscriptionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionalSubscriptionPayload>
+        }
+        findMany: {
+          args: Prisma.ProfessionalSubscriptionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionalSubscriptionPayload>[]
+        }
+        create: {
+          args: Prisma.ProfessionalSubscriptionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionalSubscriptionPayload>
+        }
+        createMany: {
+          args: Prisma.ProfessionalSubscriptionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.ProfessionalSubscriptionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionalSubscriptionPayload>[]
+        }
+        delete: {
+          args: Prisma.ProfessionalSubscriptionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionalSubscriptionPayload>
+        }
+        update: {
+          args: Prisma.ProfessionalSubscriptionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionalSubscriptionPayload>
+        }
+        deleteMany: {
+          args: Prisma.ProfessionalSubscriptionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.ProfessionalSubscriptionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.ProfessionalSubscriptionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionalSubscriptionPayload>[]
+        }
+        upsert: {
+          args: Prisma.ProfessionalSubscriptionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$ProfessionalSubscriptionPayload>
+        }
+        aggregate: {
+          args: Prisma.ProfessionalSubscriptionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateProfessionalSubscription>
+        }
+        groupBy: {
+          args: Prisma.ProfessionalSubscriptionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProfessionalSubscriptionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.ProfessionalSubscriptionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.ProfessionalSubscriptionCountAggregateOutputType> | number
+        }
+      }
+    }
+    SubscriptionPayment: {
+      payload: Prisma.$SubscriptionPaymentPayload<ExtArgs>
+      fields: Prisma.SubscriptionPaymentFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SubscriptionPaymentFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPaymentPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SubscriptionPaymentFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPaymentPayload>
+        }
+        findFirst: {
+          args: Prisma.SubscriptionPaymentFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPaymentPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SubscriptionPaymentFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPaymentPayload>
+        }
+        findMany: {
+          args: Prisma.SubscriptionPaymentFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPaymentPayload>[]
+        }
+        create: {
+          args: Prisma.SubscriptionPaymentCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPaymentPayload>
+        }
+        createMany: {
+          args: Prisma.SubscriptionPaymentCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SubscriptionPaymentCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPaymentPayload>[]
+        }
+        delete: {
+          args: Prisma.SubscriptionPaymentDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPaymentPayload>
+        }
+        update: {
+          args: Prisma.SubscriptionPaymentUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPaymentPayload>
+        }
+        deleteMany: {
+          args: Prisma.SubscriptionPaymentDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SubscriptionPaymentUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SubscriptionPaymentUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPaymentPayload>[]
+        }
+        upsert: {
+          args: Prisma.SubscriptionPaymentUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SubscriptionPaymentPayload>
+        }
+        aggregate: {
+          args: Prisma.SubscriptionPaymentAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSubscriptionPayment>
+        }
+        groupBy: {
+          args: Prisma.SubscriptionPaymentGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SubscriptionPaymentGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SubscriptionPaymentCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SubscriptionPaymentCountAggregateOutputType> | number
         }
       }
     }
@@ -1166,6 +1316,34 @@ export const ProfessionalApplicationScalarFieldEnum = {
 export type ProfessionalApplicationScalarFieldEnum = (typeof ProfessionalApplicationScalarFieldEnum)[keyof typeof ProfessionalApplicationScalarFieldEnum]
 
 
+export const ProfessionalSubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  activeKey: 'activeKey',
+  providerId: 'providerId',
+  status: 'status',
+  checkoutUrl: 'checkoutUrl',
+  businessName: 'businessName',
+  category: 'category',
+  description: 'description',
+  paidUntil: 'paidUntil',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProfessionalSubscriptionScalarFieldEnum = (typeof ProfessionalSubscriptionScalarFieldEnum)[keyof typeof ProfessionalSubscriptionScalarFieldEnum]
+
+
+export const SubscriptionPaymentScalarFieldEnum = {
+  id: 'id',
+  subscriptionId: 'subscriptionId',
+  status: 'status',
+  paidUntil: 'paidUntil'
+} as const
+
+export type SubscriptionPaymentScalarFieldEnum = (typeof SubscriptionPaymentScalarFieldEnum)[keyof typeof SubscriptionPaymentScalarFieldEnum]
+
+
 export const BusinessScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -1586,6 +1764,8 @@ export type PrismaClientOptions = PrismaClientOptionsWithAccelerateUrl | PrismaC
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   professionalApplication?: Prisma.ProfessionalApplicationOmit
+  professionalSubscription?: Prisma.ProfessionalSubscriptionOmit
+  subscriptionPayment?: Prisma.SubscriptionPaymentOmit
   business?: Prisma.BusinessOmit
   businessPhoto?: Prisma.BusinessPhotoOmit
   service?: Prisma.ServiceOmit

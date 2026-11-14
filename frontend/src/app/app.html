@@ -19,6 +19,11 @@
       <a routerLink="/">
         Explorar
       </a>
+      @if (auth.managesCompany()) {
+        <a routerLink="/subscriptions">Mi suscripción</a>
+      } @else if (!auth.isSuperadmin()) {
+        <a routerLink="/companies">Empresas</a>
+      }
 
       @if (auth.isClient()) {
         <a routerLink="/my-reservations">
@@ -94,6 +99,9 @@
         <nav aria-label="Explorar Cronos">
           <a routerLink="/" fragment="professionals">Explorar negocios</a>
           <a routerLink="/" fragment="como-reservar">Cómo reservar</a>
+          @if (auth.managesCompany()) {
+            <a routerLink="/subscriptions">Mi suscripción</a>
+          }
         </nav>
       </div>
 

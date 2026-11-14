@@ -1,0 +1,23 @@
+:host { display: block; }
+.subscriptions-page { max-width: 960px; margin: auto; padding: 64px 24px 100px; min-height: 65vh; }
+.page-heading,.card-heading,.card-actions { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.page-heading { margin-bottom: 32px; }
+h1 { margin: 8px 0 12px; font-size: clamp(30px,4vw,44px); letter-spacing: -.035em; }
+h2 { margin: 8px 0 0; font-size: 24px; } h3 { margin: 0; font-size: 18px; }
+p { color: var(--text-secondary); line-height: 1.6; margin: 0; }
+.eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .12em; }
+.subscription-card,.empty { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 32px; margin-bottom: 24px; }
+.status { border-radius: 999px; padding: 8px 14px; font-size: 13px; background: #f1f3f5; color: #4b5563; }
+.status.active { background: #e7f5ec; color: #216b3c; }
+dl { margin: 32px 0; } dl > div { display: flex; justify-content: space-between; gap: 20px; padding: 18px 0; border-bottom: 1px solid var(--border); }
+dt { color: var(--text-secondary); } dd { margin: 0; text-align: right; font-weight: 500; }
+.card-actions { justify-content: flex-start; flex-wrap: wrap; }
+button,a.primary { border-radius: 10px; padding: 12px 18px; font: inherit; font-size: 14px; text-decoration: none; cursor: pointer; }
+.primary { background: var(--accent); color: white; border: 1px solid var(--accent); }
+.secondary { background: var(--surface); border: 1px solid var(--border); color: var(--text-primary); }
+.cancel { color: var(--danger); background: transparent; border: 1px solid var(--border); }
+button:disabled { opacity: .6; cursor: default; }
+.confirmation { margin-top: 24px; padding: 24px; background: var(--surface-secondary); border-radius: 12px; } .confirmation p { margin: 12px 0 20px; }
+.notice { padding: 16px; background: #eff5ff; border-radius: 12px; margin-bottom: 24px; } .error { color: var(--danger); background: #fff1f1; }
+.empty p { margin: 16px 0 28px; }
+@media(max-width:640px) { .subscriptions-page { padding-top: 36px; } .page-heading,.card-heading { align-items: flex-start; flex-direction: column; gap: 16px; } .subscription-card { padding: 24px; } dl > div { flex-direction: column; gap: 8px; } dd { text-align: left; } }

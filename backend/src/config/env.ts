@@ -7,6 +7,11 @@ const envSchema = z.object({
     .enum(["development", "test", "production"])
     .default("development"),
   DATABASE_URL: z.string().min(1),
+  MP_ACCESS_TOKEN: z.string().min(1).optional(),
+  MP_TEST_PAYER_EMAIL: z.string().email().optional(),
+  MP_WEBHOOK_SECRET: z.string().min(1).optional(),
+  MP_RETURN_URL: z.string().url().optional(),
+  MP_WEBHOOK_URL: z.string().url().optional(),
   CORS_ORIGIN: z.string().default("http://localhost:4200"),
   SUPERADMIN_LOGIN: z.string().trim().toLowerCase().min(3).default('superadmin@cronos'),
   SUPERADMIN_PASSWORD_HASH: z.string().regex(/^scrypt:[a-f0-9]{32}:[a-f0-9]{128}$/).optional(),

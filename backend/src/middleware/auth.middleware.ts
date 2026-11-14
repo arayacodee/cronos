@@ -7,6 +7,8 @@ import {
 import { prisma } from "../lib/prisma.js";
 import { env } from "../config/env.js";
 import { privateUserSelect } from '../lib/user-profile.js';
+import { hasProfessionalAccess } from '../lib/subscriptions.js';
+import { paymentsConfigured } from '../lib/mercado-pago.js';
 
 import {
   SESSION_COOKIE,
@@ -94,5 +96,12 @@ export const requireRole =
       });
     }
 
+    if (req.authUser.role === 'PROFESSIONAL' && paymentsConfigured() && req.method !== 'GET') {
+      void hasProfessionalAccess(req.authUser.id).then(allowed => {
+        if (!allowed) return void res.status(402).json({ error: 'Tu período pagado terminó. Revisa tu suscripción en Empresas.' });
+        next();
+      }).catch(next);
+      return;
+    }
     next();
   };

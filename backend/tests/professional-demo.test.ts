@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 Object.assign(process.env, { DATABASE_URL: 'postgresql://test:test@localhost/test', GOOGLE_CLIENT_ID: 'test', AUTH_SECRET: 'test-secret-with-at-least-32-characters', CLOUDINARY_CLOUD_NAME: 'test', CLOUDINARY_API_KEY: 'test', CLOUDINARY_API_SECRET: 'test' });
 const { prisma } = await import('../src/lib/prisma.js');
 const { env } = await import('../src/config/env.js');
+Object.assign(env, { MP_ACCESS_TOKEN: undefined, MP_WEBHOOK_SECRET: undefined, MP_RETURN_URL: undefined, MP_WEBHOOK_URL: undefined });
 const { activateProfessionalDemo } = await import('../src/controllers/professional-demo.controller.js');
 function response() { return { code: 200, body: null as any, status(code: number) { this.code = code; return this; }, json(body: any) { this.body = body; return this; } }; }
 test('activación de prueba crea perfil propio, conserva negocio existente y bloquea producción y superadmin', async () => {

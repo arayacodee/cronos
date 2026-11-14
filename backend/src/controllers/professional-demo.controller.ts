@@ -2,9 +2,10 @@ import type { Request, Response } from 'express';
 import { env } from '../config/env.js';
 import { prisma } from '../lib/prisma.js';
 import { privateUserSelect } from '../lib/user-profile.js';
+import { paymentsConfigured } from '../lib/mercado-pago.js';
 
 export async function activateProfessionalDemo(req: Request, res: Response) {
-  if (env.NODE_ENV === 'production') return res.status(403).json({ error: 'La activación de prueba no está disponible en producción.' });
+  if (env.NODE_ENV === 'production' || paymentsConfigured()) return res.status(403).json({ error: 'La activación de prueba no está disponible con pagos habilitados ni en producción.' });
   if (req.authUser!.role === 'SUPERADMIN') return res.status(403).json({ error: 'La cuenta de administración conserva su rol.' });
   try {
     const result = await prisma.$transaction(async tx => {

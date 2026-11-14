@@ -9,6 +9,8 @@ delete process.env.TWILIO_ACCOUNT_SID;
 delete process.env.TWILIO_AUTH_TOKEN;
 delete process.env.TWILIO_VERIFY_SERVICE_SID;
 const { prisma } = await import('../src/lib/prisma.js');
+const { env } = await import('../src/config/env.js');
+Object.assign(env, { MP_ACCESS_TOKEN: undefined, MP_WEBHOOK_SECRET: undefined, MP_RETURN_URL: undefined, MP_WEBHOOK_URL: undefined });
 const { default: routes } = await import('../src/routes/account.routes.js');
 const { createSessionToken } = await import('../src/lib/session.js');
 

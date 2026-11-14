@@ -1,6 +1,8 @@
 import type { Request, Response } from "express";
 import { z } from "zod";
 import { prisma } from "../lib/prisma.js";
+import { hasProfessionalAccess } from '../lib/subscriptions.js';
+import { paymentsConfigured } from '../lib/mercado-pago.js';
 import { cancelSafely, completeSafely, ReservationConflict } from "../lib/reservation-state.js";
 
 const createReservationSchema =
@@ -119,6 +121,10 @@ export const createReservation = async (
       return res.status(409).json({
         error: "Service is not active",
       });
+    }
+
+    if (paymentsConfigured() && !(await hasProfessionalAccess(service.business.ownerId))) {
+      return res.status(409).json({ error: 'Este negocio no está recibiendo nuevas reservas.' });
     }
 
     const client = await prisma.user.findUnique({

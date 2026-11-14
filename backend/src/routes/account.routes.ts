@@ -6,9 +6,10 @@ import { privateUserSelect } from '../lib/user-profile.js';
 import { smsConfigured, startVerification, checkVerification, VerificationProviderError } from '../lib/phone-verification.js';
 import { adminLoginLimit } from '../middleware/admin-login-limit.js';
 import { activateProfessionalDemo } from '../controllers/professional-demo.controller.js';
+import { paymentsConfigured } from '../lib/mercado-pago.js';
 
 const router = Router();
-router.get('/configuration', (_req, res) => res.json({ smsAvailable: smsConfigured(), monthlyPrice: 7900, currency: 'CLP', paymentsAvailable: false }));
+router.get('/configuration', (_req, res) => res.json({ smsAvailable: smsConfigured(), monthlyPrice: 7900, currency: 'CLP', paymentsAvailable: paymentsConfigured() }));
 router.use(authenticate);
 router.post('/professional-application/activate-demo', adminLoginLimit(), activateProfessionalDemo);
 const contactSchema = z.object({ firstName: z.string().trim().min(2).max(80), lastName: z.string().trim().min(2).max(80), address: z.string().trim().min(5).max(300), phone: z.string().trim().min(1).max(40) }).strict();
@@ -70,7 +71,7 @@ router.put('/professional-application', async (req, res) => {
   if (!parsed.success) return void res.status(400).json({ error: 'Revisa el nombre y la categoría de tu empresa.' });
   // This is a saved draft, never a payment or a role elevation.
   const application = await prisma.professionalApplication.upsert({ where: { userId: req.authUser!.id }, create: { userId: req.authUser!.id, ...parsed.data }, update: parsed.data });
-  res.json({ application, paymentsAvailable: false });
+  res.json({ application, paymentsAvailable: paymentsConfigured() });
 });
 export default router;
 
